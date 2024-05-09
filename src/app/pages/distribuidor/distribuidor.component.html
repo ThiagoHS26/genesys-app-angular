@@ -1,0 +1,194 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProv"
+                            (click)="addRegisterTitle()">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Razon Social</th>
+                                    <th>Ciudad</th>
+                                    <th>Dirección</th>
+                                    <th>Contacto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of proveedores; let i = index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.razon_social}}</td>
+                                    <td>{{item.ciudad}}</td>
+                                    <td>{{item.direccion}}</td>
+                                    <td>{{item.telefono}}</td>
+                                    <td>
+                                        <button (click)="completeProvForm(item.id)" data-toggle="modal" data-target="#addProv" class="btn btn-warning btn-xs mr-2"><i class="fas fa-pencil-alt"></i></button>
+                                        <button (click)="deleteProv(item.id)" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+        
+                </div>
+
+                <!--Modal Proveedor-->
+                <div class="modal fade" id="addProv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" #modalTitle></h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="createProveedor()" [formGroup]="proveedorForm" autocomplete="off">
+
+                                    <!--Tipo Documento-->
+                                    <sub *ngIf="campoNoValido('tipo_documento')" class="text-danger">Campo requerido</sub>
+                                    <div class="form-group mb-3">
+                                        <div class="input-group-append">
+                                            <select class="form-control" formControlName="tipo_documento">
+                                                <option value="">Tipo de documento</option>
+                                                <option *ngFor="let item of TipoDocumento">{{item}}</option>
+                                            </select>
+                                            <div class="input-group-text">
+                                                <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Numero de documento-->
+                                    <sub *ngIf="campoNoValido('numero_documento')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Número de documento" formControlName="numero_documento">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Nombres-->
+                                    <sub *ngIf="campoNoValido('nombres_completos')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Nombres" formControlName="nombres_completos">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Razon social-->
+                                    <sub *ngIf="campoNoValido('razon_social')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Razón social" formControlName="razon_social">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Ciudad-->
+                                    <sub *ngIf="campoNoValido('ciudad')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Direccion-->
+                                    <sub *ngIf="campoNoValido('direccion')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Telefono-->
+                                    <sub *ngIf="campoNoValido('telefono')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Teléfono" formControlName="telefono">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Movil-->
+                                    <sub *ngIf="campoNoValido('movil')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Celular" formControlName="movil">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Correo-->
+                                    <sub *ngIf="campoNoValido('correo')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Correo electrónico" formControlName="correo">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <!--Estado-->
+                                     <sub *ngIf="campoNoValido('estado')" class="text-danger">Campo requerido</sub>
+                                     <div class="form-group mb-3">
+                                        <div class="input-group-append">
+                                            <select class="form-control" formControlName="estado">
+                                                <option value="">Selecciona el estado</option>
+                                                <option *ngFor="let item of Estados">{{item}}</option>
+                                            </select>
+                                            <div class="input-group-text">
+                                                <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <!--Botones de control-->
+                                    <div class="row">
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary" *ngIf="showRegisterBtn">Registrar</button>
+                                            <button type="button" class="btn btn-primary" *ngIf="showEditBtn" (click)="updateProveedor()">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal Proveedor-->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+

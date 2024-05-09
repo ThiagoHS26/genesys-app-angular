@@ -1,0 +1,173 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStore" 
+                            (click)="addRegisterTitle()">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
+                    <!--Card Body-->
+                    <div class="card-body">
+                        <!--Tabla-->
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered ">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nombre</th>
+                                    <th>Ciudad</th>
+                                    <th>Dirección</th>
+                                    <th>Correo</th>
+                                    <th>Contacto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of almacenes; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.nombre}}</td>
+                                    <td>{{item.ciudad}}</td>
+                                    <td>{{item.direccion}}</td>
+                                    <td>{{item.correo}}</td>
+                                    <td>{{item.movil}}</td>
+                                    <td>
+                                        <button (click)="completeAlmacenForm(item.id)" data-toggle="modal" 
+                                            data-target="#addStore" class="btn btn-warning btn-xs mr-2">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-xs" (click)="deleteAlmacen(item.id)"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Card Body-->
+                </div>
+
+                <!--Modal Agregar Almacen-->
+                <div class="modal fade" id="addStore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" #modalTitle></h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="createAlmacen()" [formGroup]="almacenForm" autocomplete="off">
+
+                                    <!--Nombre del almacen-->
+                                    <sub *ngIf="campoNoValido('nombre')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Nombre del almacén" formControlName="nombre">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Provincia-->
+                                    <sub *ngIf="campoNoValido('provincia')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Provincia" formControlName="provincia">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Ciudad-->
+                                    <sub *ngIf="campoNoValido('ciudad')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Direccion-->
+                                    <sub *ngIf="campoNoValido('direccion')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Correo-->
+                                    <sub *ngIf="campoNoValido('correo')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Correo electrónico" formControlName="correo">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Telefono-->
+                                    <sub *ngIf="campoNoValido('movil')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Contacto" formControlName="movil">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Movil-->
+                                    <sub *ngIf="campoNoValido('telefono')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Contacto" formControlName="telefono">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Tipo Documento-->
+                                    <small *ngIf="campoNoValido('usuario_id')" class="text-danger">Seleccionar usuario</small>
+                                    <div class="form-group mb-3">
+                                        <div class="input-group-append">
+                                            <select class="form-control" (change)="changeUser($event)" formControlName="usuario_id">
+                                                <option value="">Seleccionar usuario</option>
+                                                @for (item of usuarios; track item.id) {
+                                                    <option value="{{item.id}}">{{item.username}}</option>
+                                                }
+                                            </select>
+                                            <div class="input-group-text">
+                                                <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Botones de control-->
+                                    <div class="row">
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary" *ngIf="showRegisterBtn">Registrar</button>
+                                            <button type="button" class="btn btn-primary" *ngIf="showEditBtn" (click)="updateAlmacen()">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal Agregar Usuario-->
+
+            </div>
+        </div>
+    </div>
+</section>        
