@@ -37,6 +37,11 @@ export class SidebarComponent {
       titulo: 'Clientes',
       icono:'nav-icon fas fa-users',
       url:'cliente'
+    },
+    {
+      titulo: 'Productos',
+      icono:'nav-icon fas fa-box',
+      url:'producto'
     }
   ];
 

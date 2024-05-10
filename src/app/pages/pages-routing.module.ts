@@ -7,6 +7,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { AlmacenComponent } from './almacen/almacen.component';
 import { DistribuidorComponent } from './distribuidor/distribuidor.component';
 import { ClienteComponent } from './cliente/cliente.component';
+import { ProductoComponent } from './producto/producto.component';
 
 const routes: Routes = [
   {path:'', component: PagesComponent, //canActivate: [AuthGuard],
@@ -15,7 +16,8 @@ const routes: Routes = [
       {path:'usuarios', component: UsuariosComponent, data:{titulo:'Usuarios'}},
       {path:'almacen', component: AlmacenComponent, data:{titulo:'Almacenes'}},
       {path:'proveedor',component: DistribuidorComponent, data:{titulo:'Proveedores'}},
-      {path:'cliente', component: ClienteComponent, data:{titulo:'Clientes'}}
+      {path:'cliente', component: ClienteComponent, data:{titulo:'Clientes'}},
+      {path:'producto', component: ProductoComponent, data:{titulo:'Productos'}}
     ]
   },
   

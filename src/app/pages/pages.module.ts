@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlmacenComponent } from './almacen/almacen.component';
 import { DistribuidorComponent } from './distribuidor/distribuidor.component';
 import { ClienteComponent } from './cliente/cliente.component';
+import { ProductoComponent } from './producto/producto.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ClienteComponent } from './cliente/cliente.component';
     UsuariosComponent,
     AlmacenComponent,
     DistribuidorComponent,
-    ClienteComponent
+    ClienteComponent,
+    ProductoComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { ClienteComponent } from './cliente/cliente.component';
     UsuariosComponent,
     AlmacenComponent,
     DistribuidorComponent,
-    ClienteComponent
+    ClienteComponent,
+    ProductoComponent
   ],
 })
 export class PagesModule { }

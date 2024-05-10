@@ -1,0 +1,307 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Categorías</h4>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategory"
+                                (click)="addCatTitle()">
+                                <i class="fas fa-plus"></i> Agregar categoria
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered ">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of categorias; let i = index;">
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.nombre_categoria}}</td>
+                                    <td>{{item.descripcion}}</td>
+                                    <td>
+                                        <button (click)="completeCatForm(item.id)" data-toggle="modal" data-target="#addCategory" class="btn btn-warning btn-xs mr-2"><i class="fas fa-pencil-alt"></i></button>
+                                        <button (click)="deleteCategoria(item.id)" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--ARTICULO-->
+                    <div class="card-header">
+                        <h4>Artículos</h4>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct"
+                                (click)="addArtTitle()">
+                                <i class="fas fa-plus"></i> Agregar artículo
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered ">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio de compra</th>
+                                    <th>Precio de venta</th>
+                                    <th>Stock inicial</th>
+                                    <th>Stock actual</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of articulos; let i = index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.codigo}}</td>
+                                    <td>{{item.nombre_producto}}</td>
+
+                                    @for (cat of categorias; track cat.id) {
+                                        <td *ngIf="cat.id === item.categoria_id">{{cat.nombre_categoria}}</td>
+                                    }
+
+                                    <td>{{item.precio_compra}}</td>
+                                    <td>{{item.precio_venta}}</td>
+                                    <td>{{item.stock_incial}}</td>
+                                    <td>{{item.stock_actual}}</td>
+                                    <td>
+                                        <button (click)="completeArtForm(item.id)" data-toggle="modal" data-target="#addProduct" class="btn btn-warning btn-xs mr-2"><i class="fas fa-pencil-alt"></i></button>
+                                        <button (click)="deleteArticulo(item.id)" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--ARTICULO-->
+                </div>
+                <!--Modal Categoria-->
+                <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" #modalCatTitle></h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="createCategoria()" [formGroup]="categoriaForm" autocomplete="off">
+
+                                    <!--Razon social-->
+                                    <sub *ngIf="campoNoValido('nombre_categoria')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Nombre de la categoría" formControlName="nombre_categoria">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Ciudad-->
+                                    <sub *ngIf="campoNoValido('descripcion')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Descripción" formControlName="descripcion">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <!--Botones de control-->
+                                    <div class="row">
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary" *ngIf="btnAddCat">Registrar</button>
+                                            <button type="button" class="btn btn-primary" (click)="updateCategoria()" *ngIf="btnEditCat">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal Categoria-->
+
+                <!--Modal Articulo-->
+                <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" #modalArtTitle></h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="createArticulo()" [formGroup]="articuloForm" autocomplete="off">
+
+                                    <!--Codigo-->
+                                    <sub *ngIf="campoNoValido('codigo')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Código del artículo" formControlName="codigo">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Nombre-->
+                                    <sub *ngIf="campoNoValido('nombre_producto')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Nombre del artículo" formControlName="nombre_producto">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   <!--Tipo articulo-->
+                                   <sub *ngIf="campoNoValido('tipo_prod')" class="text-danger">Campo requerido</sub>
+                                   <div class="form-group mb-3">
+                                       <div class="input-group-append">
+                                           <select class="form-control" formControlName="tipo_prod">
+                                               <option value="">Tipo de artículo</option>
+                                               <option *ngFor="let item of tipoArticulo">{{item}}</option>
+                                           </select>
+                                           <div class="input-group-text">
+                                               <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <!--Descripcion-->
+                                   <sub *ngIf="campoNoValido('descripcion')" class="text-danger">Campo requerido</sub>
+                                   <div class="input-group mb-3">
+                                       <input type="text" class="form-control" placeholder="Descripción" formControlName="descripcion">
+                                       <div class="input-group-append">
+                                           <div class="input-group-text">
+                                               <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <!--Unidad-->
+                                   <sub *ngIf="campoNoValido('unidad')" class="text-danger">Campo requerido</sub>
+                                   <div class="input-group mb-3">
+                                       <input type="text" class="form-control" placeholder="Unidad" formControlName="unidad">
+                                       <div class="input-group-append">
+                                           <div class="input-group-text">
+                                               <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <!--Precio de compra-->
+                                   <sub *ngIf="campoNoValido('precio_compra')" class="text-danger">Campo requerido</sub>
+                                   <div class="input-group mb-3">
+                                       <input type="number" class="form-control" placeholder="Precio de compra" formControlName="precio_compra">
+                                       <div class="input-group-append">
+                                           <div class="input-group-text">
+                                               <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <!--Precio base-->
+                                   <sub *ngIf="campoNoValido('precio_base')" class="text-danger">Campo requerido</sub>
+                                   <div class="input-group mb-3">
+                                       <input type="number" class="form-control" placeholder="Precio base" formControlName="precio_base">
+                                       <div class="input-group-append">
+                                           <div class="input-group-text">
+                                               <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                    <!--Precio de venta-->
+                                    <sub *ngIf="campoNoValido('precio_venta')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Precio de venta" formControlName="precio_venta">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Stock Inicial-->
+                                    <sub *ngIf="campoNoValido('stock_incial')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Stock inicial" formControlName="stock_incial">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Stock actual-->
+                                    <sub *ngIf="campoNoValido('stock_actual')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Stock actual" formControlName="stock_actual">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Estado articulo-->
+                                   <sub *ngIf="campoNoValido('estado')" class="text-danger">Campo requerido</sub>
+                                   <div class="form-group mb-3">
+                                       <div class="input-group-append">
+                                           <select class="form-control" formControlName="estado">
+                                               <option value="">Estado del artículo</option>
+                                               <option *ngFor="let item of estadoArticulo">{{item}}</option>
+                                           </select>
+                                           <div class="input-group-text">
+                                               <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <!--Categoria-->
+                                   <sub *ngIf="campoNoValido('categoria_id')" class="text-danger">Campo requerido</sub>
+                                   <div class="form-group mb-3">
+                                       <div class="input-group-append">
+                                           <select class="form-control" formControlName="categoria_id">
+                                               <option value="">Categoría</option>
+                                               <option *ngFor="let item of categorias"value="{{item.id}}">{{item.nombre_categoria}}</option>
+                                           </select>
+                                           <div class="input-group-text">
+                                               <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                        
+                                    <!--Botones de control-->
+                                    <div class="row">
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary" *ngIf="btnAddArt">Registrar</button>
+                                            <button type="button" class="btn btn-primary" (click)="updateArticulo()" *ngIf="btnEditArt">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal Articulo-->
+
+            </div>
+        </div>
+    </div>
+</section>
+
