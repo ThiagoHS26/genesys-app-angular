@@ -12,6 +12,7 @@ import { AlmacenComponent } from './almacen/almacen.component';
 import { DistribuidorComponent } from './distribuidor/distribuidor.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { ProductoComponent } from './producto/producto.component';
+import { ComprasComponent } from './compras/compras.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ProductoComponent } from './producto/producto.component';
     AlmacenComponent,
     DistribuidorComponent,
     ClienteComponent,
-    ProductoComponent
+    ProductoComponent,
+    ComprasComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { ProductoComponent } from './producto/producto.component';
     AlmacenComponent,
     DistribuidorComponent,
     ClienteComponent,
-    ProductoComponent
+    ProductoComponent,
+    ComprasComponent
   ],
 })
 export class PagesModule { }
