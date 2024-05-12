@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { LoginInterface } from '../interfaces/login.interface';
 import { Observable, of } from 'rxjs';
+import { UsuarioModel } from '../../pages/usuarios/models/usuario.model';
 
 const URL = environment.urlServer;
 
@@ -33,7 +34,7 @@ export class AuthService {
     return this.accessToken;
   }
 
-  getUserIdentity(): Observable<Object | null>{
+  getUserIdentity(): Observable<UsuarioModel>{
 
     let identity = localStorage.getItem('identity');
     if(identity){
