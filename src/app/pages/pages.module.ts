@@ -13,6 +13,7 @@ import { DistribuidorComponent } from './distribuidor/distribuidor.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { ProductoComponent } from './producto/producto.component';
 import { ComprasComponent } from './compras/compras.component';
+import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-compra.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ComprasComponent } from './compras/compras.component';
     DistribuidorComponent,
     ClienteComponent,
     ProductoComponent,
-    ComprasComponent
+    ComprasComponent,
+    RegistrarCompraComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { ComprasComponent } from './compras/compras.component';
     DistribuidorComponent,
     ClienteComponent,
     ProductoComponent,
-    ComprasComponent
+    ComprasComponent,
+    RegistrarCompraComponent
   ],
 })
 export class PagesModule { }

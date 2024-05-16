@@ -1,0 +1,252 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-header">
+                        <form (ngSubmit)="registrarCompra()" [formGroup]="cabeceraCompra" autocomplete="off">
+                            <div class="input-group mb-3">
+                                <div class="row d-flex justify-content-center text-sm" style="width: 100%;">
+
+                                    <!--Columna 1-->
+                                    <div class="col-4">
+
+                                        <sub *ngIf="campoNoValido('num_factura')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label class="text-sm">Factura No.</label>
+                                            <input type="text" class="form-control text-sm" formControlName="num_factura">
+                                        </div>
+
+                                        <sub *ngIf="campoNoValido('fecha_emision')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label>Fecha ingreso</label>
+                                            <input type="date" class="form-control text-sm" formControlName="fecha_emision">
+                                        </div>
+
+                                        <sub *ngIf="campoNoValido('fecha_ingreso')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label>Fecha registro</label>
+                                            <input type="date" class="form-control text-sm" formControlName="fecha_ingreso">
+                                        </div>
+
+                                    </div>
+
+                                    <!--Columna 2-->
+                                    
+                                    <div class="col-4">
+                                        <sub *ngIf="campoNoValido('sucursal_id')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label for="">Establecimiento</label>
+                                            <select class="form-control text-sm" formControlName="sucursal_id">
+                                                <option value="" disabled>Selecciona una sucursal</option>
+                                                <option *ngFor="let item of almacenes;" value="{{item.id}}">{{item.nombre}}</option>
+                                            </select>
+                                        </div>
+
+                                        <sub *ngIf="campoNoValido('distribuidor_id')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label for="">Proveedor</label>
+                                            <select class="form-control text-sm" formControlName="distribuidor_id">
+                                                <option value="" disabled>Selecciona el proveedor</option>
+                                                <option *ngFor="let item of proveedores;" value="{{item.id}}">{{item.razon_social}}</option>
+                                            </select>
+                                        </div>
+
+                                        <sub *ngIf="campoNoValido('forma_pago')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label for="">Forma de pago</label>
+                                            <select class="form-control text-sm" formControlName="forma_pago">
+                                                <option value="" disabled>Selecciona la forma de pago</option>
+                                                <option *ngFor="let item of formaPagoCompra;">{{item}}</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <!--Columna 3-->
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Usuario</label>
+                                            <input type="text" class="form-control text-sm" readonly placeholder="{{currentUser.nombres_completos}}">
+                                            <input type="text" class="form-control text-sm" formControlName="usuario_id" placeholder="{{currentUser.nombres_completos}}" style="display: none;">
+                                        </div>
+
+                                        <sub *ngIf="campoNoValido('estado_compra')" class="text-danger">Campo obligatorio</sub>
+                                        <div class="form-group">
+                                            <label for="">Estado de la compra</label>
+                                            <select class="form-control text-sm" formControlName="estado_compra">
+                                                <option value="" disabled>Selecciona el estado</option>
+                                                <option *ngFor="let item of estadoCompra;">{{item}}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="">Observaciones</label>
+                                            <textarea class="form-control text-sm" formControlName="observaciones">Observaciones</textarea>
+                                        </div>
+
+                                    </div>
+
+                                    <!--Agregar detalles buton-->
+                                    <div class="row">
+                                        <button type="submit" class="btn btn-primary btn-sm">Grabar</button>
+                                        <button class="btn btn-success btn-sm ml-2">Añadir detalles</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <h4 class="text-sm">Artículos en stock</h4>
+                                <input class="form-control filter" type="text" placeholder="Buscar">
+                                <span class="info-container">
+                                    <sub class="info">Mostrando {{totalArticulos}} elementos</sub>
+                                </span>
+                                <select multiple="multiple" class="form-control text-sm">
+                                    <option *ngFor="let item of articulos;" (click)="addArticulo(item)">{{item.nombre_producto}}</option>
+                                </select>
+                            </div>
+                            <div class="col-8 table-responsive">
+                                
+                                <table class="table table-bordered text-sm text-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20px;">#</th>
+                                            <th style="width: 50px;">Código</th>
+                                            <th>Artículo</th>
+                                            <th style="width: 40px;">P.U</th>
+                                            <th style="width: 40px;">Cant.</th>
+                                            <th style="width: 40px;">Desc.</th>
+                                            <th style="width: 80px;"><i class="fas fa-cog"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of detalleCompra; let i = index;">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item.codigo}}</td>
+                                            <td>{{item.nombre_producto}}</td>
+                                            <td>
+                                                <!--<input type="text" style="width: 60px;" (change)="capturaPrecio($event)">
+                                                    en el caso de modificar el precio de compra por alza, impuestos, etc -->
+                                                {{item.precio_compra}}
+                                            </td>
+                                            <td>
+                                                <input type="text" style="width: 60px;" (change)="capturaCantidad($event)" class="text-center">
+                                            </td>
+                                            <td>
+                                                <input type="text" style="width: 60px;" (change)="capturaDescuento($event)" class="text-center">
+                                            </td>
+                                            <td>
+                                                <button (click)="deleteItem(item)" type="button" class="btn btn-danger btn-xs mr-1"><i class="fas fa-trash"></i></button>
+                                                <button type="button" class="btn btn-info btn-xs"><i class="fas fa-eye"></i></button>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal 12%</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal 0%</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal No Objeto IVA</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal Exento IVA</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal Sin Impuestos</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">ICE</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">IVA 12%</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Propina</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Valor total</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                                <hr>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Total a pagar</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--Modal presentar articulo-->
+                <div class="modal fade" id="viewArt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Artículo</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+
+                                    <!--Numero de documento-->
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Número de documento">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <!--Botones de control-->
+                                    <div class="row">
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal presentar articulo-->
+            </div>
+
+        </div>
+    </div>
+</section>
