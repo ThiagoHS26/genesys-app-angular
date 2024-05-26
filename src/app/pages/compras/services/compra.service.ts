@@ -21,14 +21,15 @@ export class CompraService {
 
   obtenerCompras(): Observable<CompraModel[]>{
     let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
-    return this._http.get<CompraModel[]>(`${URL}/compra/get-all`, {headers}).pipe(
+    return this._http.get<CompraModel[]>(`${URL}compra/get-all`, {headers}).pipe(
       map((response:any)=>response.data)
     );
   }
 
-  obtenerFacturaXId(id: string): Observable<any>{
+  //Realiza una peticion enviando el id para obtener la compra y sus detalles
+  obtenerCompraDetalle(id: string): Observable<any>{
     let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
-    return this._http.get(`${URL}/compra/get-by-id/${id}`, {headers}).pipe(
+    return this._http.get(`${URL}compra-detalle/get-one/${id}`, {headers}).pipe(
       map((response:any)=>response.data)
     );
   }
@@ -36,6 +37,13 @@ export class CompraService {
   registrarCompra(data: CompraInterface): Observable<CompraModel> {
     let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
     return this._http.post<CompraModel>(`${URL}compra/create`, data, {headers}).pipe(
+      map((response:any)=>response.data)
+    );
+  }
+
+  eliminarCompra(id: string): Observable<any>{
+    let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
+    return this._http.delete(`${URL}compra/delete/${id}`,{headers}).pipe(
       map((response:any)=>response.data)
     );
   }

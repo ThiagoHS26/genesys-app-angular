@@ -46,7 +46,7 @@ export class SidebarComponent {
     {
       titulo: 'Compras',
       icono: 'nav-icon fas fa-shopping-cart',
-      url: 'compras'
+      url: '/compras'
     }
     
   ];

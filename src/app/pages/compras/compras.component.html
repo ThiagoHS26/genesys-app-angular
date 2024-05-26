@@ -16,7 +16,6 @@
                                     <th>#</th>
                                     <th>Fecha</th>
                                     <th>Factura No.</th>
-                                    <th>Proveedor</th>
                                     <th>Forma de pago</th>
                                     <th>Estado</th>
                                     <th>Valor</th>
@@ -28,52 +27,113 @@
                                     <td>{{i+1}}</td>
                                     <td>{{item.fecha_emision}}</td>
                                     <td>{{item.num_factura}}</td>
-                                    @for (prov of proveedores; track prov.id) {
-                                        <td *ngIf="prov.id === item.distribuidor_id">{{prov.nombres_completos}}</td>
-                                    }
                                     <td>{{item.forma_pago}}</td>
                                     <td>{{item.estado_compra}}</td>
-                                    <td *ngIf="item.total_compra">{{item.total_compra}}</td>
+                                    <td>{{item.total_compra}}</td>
                                     <td>
-                                        <button class="btn btn-danger btn-xs mr-2"><i class="fas fa-trash-alt"></i></button>
-                                        <button data-toggle="modal" data-target="#factura" class="btn btn-info btn-xs"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-danger btn-xs mr-2" (click)="deleteCompra(item.id)"><i class="fas fa-trash-alt"></i></button>
+                                        <button (click)="getCompraDetalle(item.id)" data-toggle="modal" data-target="#factura" class="btn btn-info btn-xs">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
                 <!--Modal Factura-->
                 <div class="modal fade" id="factura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Detalles de compra</h4>
+                                <h4 class="modal-title">Compra registrada</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">×</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
-
-                                    <!--Nombre del almacen-->
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Botones de control-->
+                                <div class="invoice-header p-1 bg-dark">
                                     <div class="row">
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-info">Imprimir</button>
+                                        <div class="col-12">
+                                            <h4>
+                                                FACTURA NO. {{facturaCompra[3]}}
+
+                                            </h4>
+                                            <p>Fecha y Hora de ingreso: {{facturaCompra[1] | date:'dd/MM/yyyy HH:mm:ss'}}</p>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+
+                                <div class="invoice-info">
+                                    <table class="table table-bordered text-sm">
+                                        <tr>
+                                            <td>
+                                                <strong>Emisor:</strong><br>
+                                                {{proveedor[6]}}<br>
+                                                {{proveedor[8]}}<br>
+                                                {{proveedor[7]}}<br>
+                                                {{proveedor[10]}}
+                                            </td>
+                                            <td>
+                                                <strong>Cliente:</strong><br>
+                                                {{usuario[5]}}<br>
+                                                Direccion<br>
+                                                Ciudad<br>
+                                                {{usuario[9]}}<br>
+                                                
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="invoice-details">
+                                    <table class="table table-bordered text-sm">
+                                        <thead class="bg-dark">
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio Unitario</th>
+                                                <th>Descuento(%)</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of facturaCompra[13]">
+                                                <td>{{item.codigo_producto}}</td>
+                                                <td>{{item.nombre_producto}}</td>
+                                                <td>{{item.cantidad}}</td>
+                                                <td>{{item.precio_compra | currency}}</td>
+                                                <td>{{item.descuento/100 | percent}}</td>
+                                                <td>{{item.subtotal | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="invoice-summary">
+                                    <table class="table text-sm">
+                                        <tr>
+                                            <th>Subtotal 15%:</th>
+                                            <td>{{total / 1.15 | currency}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>IVA 15%:</th>
+                                            <td>{{(total / 1.15) * 0.15 | currency}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td>{{total | currency}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                                <div class="invoice-footer text-xs">
+                                    <p>Este documento no tiene valor comercial</p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
