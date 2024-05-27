@@ -14,6 +14,8 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { ProductoComponent } from './producto/producto.component';
 import { ComprasComponent } from './compras/compras.component';
 import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-compra.component';
+import { VentasComponent } from './ventas/ventas.component';
+import { RegistrarDetalleComponent } from './ventas/registrar-detalle/registrar-detalle.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-c
     ClienteComponent,
     ProductoComponent,
     ComprasComponent,
-    RegistrarCompraComponent
+    RegistrarCompraComponent,
+    VentasComponent,
+    RegistrarDetalleComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +48,9 @@ import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-c
     ClienteComponent,
     ProductoComponent,
     ComprasComponent,
-    RegistrarCompraComponent
+    RegistrarCompraComponent,
+    VentasComponent,
+    RegistrarDetalleComponent
   ],
 })
 export class PagesModule { }

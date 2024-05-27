@@ -1,0 +1,136 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-primary" routerLink="/compras/registrar">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
+
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Factura No.</th>
+                                    <th>Forma de pago</th>
+                                    <th>Estado</th>
+                                    <th>Valor</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of ventas; let i = index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.fecha_emision}}</td>
+                                    <td>{{item.num_factura}}</td>
+                                    <td>{{item.forma_pago}}</td>
+                                    <td>{{item.estado_venta}}</td>
+                                    <td>{{item.total_venta | number:'1.2-2'}}</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-xs mr-2"><i class="fas fa-trash-alt" (click)="deleteVenta(item.id)"></i></button>
+                                        <button data-toggle="modal" data-target="#factura" class="btn btn-info btn-xs">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--Modal Factura-->
+                <div class="modal fade" id="factura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            
+                                <div class="invoice-info">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div>
+                                                <img src="../../assets/dist/img/AdminLTELogo.png">
+                                            </div>
+                                            <div>
+                                                datos genericos
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-sm">
+                                            <p><strong>R.U.C </strong>0605016179</p>
+                                            <h6>FACTURA</h6>
+                                            <p>No. 000-000-000-001</p>
+                                            <h6>NÚMERO DE AUTORIZACIÓN</h6>
+                                            <p>123456789987654123654987</p>
+                                            <h6>FECHA Y HORA DE AUTORIZACIÓN</h6>
+                                            <p>26/05/2024 21:35:25</p>
+                                            <p><strong>AMBIENTE: </strong>PRODUCCIÓN</p>
+                                            <p><strong>EMISIÓN: </strong>NORMAL</p>
+                                            <p>CLAVE DE ACCESO</p>
+                                            <span>5487412541236987412541252369855</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="invoice-details">
+                                    <table class="table table-bordered text-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio Unitario</th>
+                                                <th>Descuento(%)</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="invoice-summary">
+                                    <table class="table text-sm">
+                                        <tr>
+                                            <th>Subtotal 15%:</th>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>IVA 15%:</th>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                                <div class="invoice-footer text-xs">
+                                    <p>Este documento no tiene valor comercial</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal Factura-->
+            </div>
+        </div>
+    </div>
+</section>

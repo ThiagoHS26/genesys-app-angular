@@ -8,7 +8,9 @@ import { DistribuidorComponent } from './distribuidor/distribuidor.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { ProductoComponent } from './producto/producto.component';
 import { ComprasComponent } from './compras/compras.component';
+import { VentasComponent } from './ventas/ventas.component';
 import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-compra.component';
+import { RegistrarDetalleComponent } from './ventas/registrar-detalle/registrar-detalle.component';
 
 const routes: Routes = [
   {path:'', component: PagesComponent, //canActivate: [AuthGuard],
@@ -20,7 +22,9 @@ const routes: Routes = [
       {path:'cliente', component: ClienteComponent, data:{titulo:'Clientes'}},
       {path:'producto', component: ProductoComponent, data:{titulo:'Productos'}},
       {path:'compras', component: ComprasComponent, data:{titulo:'Compras'}},
-      {path:'compras/registrar', component: RegistrarCompraComponent, data:{titulo:'Registrar compra'}}
+      {path:'compras/registrar', component: RegistrarCompraComponent, data:{titulo:'Registrar compra'}},
+      {path:'ventas', component: VentasComponent, data:{titulo:'Ventas'}},
+      {path:'ventas/registrar', component: RegistrarDetalleComponent, data:{titulo:'Registrar venta'}}
     ]
   },
   
