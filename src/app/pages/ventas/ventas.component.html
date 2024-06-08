@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary" routerLink="/compras/registrar">
+                        <button type="button" class="btn btn-primary" routerLink="/ventas/registrar">
                             <i class="fas fa-plus"></i> Agregar
                         </button>
                     </div>
@@ -32,7 +32,7 @@
                                     <td>{{item.total_venta | number:'1.2-2'}}</td>
                                     <td>
                                         <button class="btn btn-danger btn-xs mr-2"><i class="fas fa-trash-alt" (click)="deleteVenta(item.id)"></i></button>
-                                        <button data-toggle="modal" data-target="#factura" class="btn btn-info btn-xs">
+                                        <button (click)="getVentaDetalle(item.id)" data-toggle="modal" data-target="#factura" class="btn btn-info btn-xs">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </td>
@@ -45,89 +45,193 @@
                 <div class="modal fade" id="factura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
+                            
                             <div class="modal-body">
                             
                                 <div class="invoice-info">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div>
-                                                <img src="../../assets/dist/img/AdminLTELogo.png">
+                                        <div class="col-md-6 text-xs">
+                                            <div  style="width: 190px;height: 190px;">
+                                                <img src="../../assets/dist/img/AdminLTELogo.png" style="width: 100%;">
                                             </div>
                                             <div>
-                                                datos genericos
+                                                <h6><strong>{{currentUser.nombres_completos | uppercase}}</strong></h6>
+                                                <P><strong>{{currentUser.nombres_completos | uppercase}}</strong></P>
+                                                <p><strong>DIRECCIÓN MATRIZ: </strong>{{currentUser.direccion | uppercase}}</p>
+                                                <p><strong>DIRECCIÓN SUCURSAL: </strong></p>
+                                                <p><strong>OBLIGADO A LLEVAR CONTABILIDAD</strong> NO</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 text-sm">
-                                            <p><strong>R.U.C </strong>0605016179</p>
-                                            <h6>FACTURA</h6>
-                                            <p>No. 000-000-000-001</p>
-                                            <h6>NÚMERO DE AUTORIZACIÓN</h6>
-                                            <p>123456789987654123654987</p>
-                                            <h6>FECHA Y HORA DE AUTORIZACIÓN</h6>
-                                            <p>26/05/2024 21:35:25</p>
-                                            <p><strong>AMBIENTE: </strong>PRODUCCIÓN</p>
-                                            <p><strong>EMISIÓN: </strong>NORMAL</p>
-                                            <p>CLAVE DE ACCESO</p>
-                                            <span>5487412541236987412541252369855</span>
+                                        <div class="col-md-6 text-xs">
+                                            <h5><strong>R.U.C </strong>{{currentUser.numero_documento}}</h5>
+                                            @for (item of ventas; track $index) {
+                                                <h6><strong>FACTURA</strong></h6>
+                                                <p><span>NO. </span>{{item.num_factura}}</p>
+                                                <h6><strong>NÚMERO DE AUTORIZACIÓN</strong></h6>
+                                                <p>123456789987654123654987</p>
+                                                <h6><strong>FECHA Y HORA DE AUTORIZACIÓN</strong></h6>
+                                                <p>{{item.createdAt | date: 'mediumDate'}} | {{item.createdAt | date: 'mediumTime'}}</p>
+                                                <p><strong>AMBIENTE: </strong>PRODUCCIÓN</p>
+                                                <p><strong>EMISIÓN: </strong>NORMAL</p>
+                                                <p><strong>CLAVE DE ACCESO</strong></p>
+                                                <span>5487412541236987412541252369855</span>
+                                            }
+                                            
                                         </div>
                                     </div>
+                                    
                                 </div>
 
                                 <div class="invoice-details">
-                                    <table class="table table-bordered text-sm">
+                                    
+                                    <table class="table-bordered text-xs w-100 mt-1">
+                                      
+                                        <tr>
+                                            <th>Nombres / Razón social:</th>
+                                            <td>{{cliente[5]}}</td>
+                                            <th>R.U.C / C.I:</th>
+                                            <td>{{cliente[4]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha emsión: </th>
+                                            <td>{{fechaEmision}}</td>
+                                            <th>Guía de remisión: </th>
+                                            <td></td>
+                                        </tr>
+                        
+                                    </table>
+
+                                    <table class="table-bordered text-xs text-center w-100 mt-2 mb-2">
                                         <thead>
                                             <tr>
                                                 <th>Código</th>
                                                 <th>Descripción</th>
                                                 <th>Cantidad</th>
                                                 <th>Precio Unitario</th>
-                                                <th>Descuento(%)</th>
+                                                <th colspan="2">Descuento(%)</th>
                                                 <th>Subtotal</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                        <tbody >
+                                            <tr *ngFor="let item of ventaDetalle[25]">
+                                                <td>{{item.codigo_producto}}</td>
+                                                <td>{{item.nombre_producto}}</td>
+                                                <td>{{item.cantidad}}</td>
+                                                <td>$ {{item.precio_venta}}</td>
+                                                <td>{{(100 * item.descuento) / (item.precio_venta * item.cantidad)}} %</td>
+                                                <td>$ {{item.descuento}}</td>
+                                                <td>$ {{item.subtotal}}</td>
                                             </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <div class="invoice-summary">
-                                    <table class="table text-sm">
-                                        <tr>
-                                            <th>Subtotal 15%:</th>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>IVA 15%:</th>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Total:</th>
-                                            <td></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            
+                                            <table class="table-bordered text-xs w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Forma de pago</th>
+                                                        <th>Valor</th>
+                                                        <th>Plazo</th>
+                                                        <th>Tiempo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Sin utilizar el sistema financiero</td>
+                                                        <td>{{0 | currency}}</td>
+                                                        <td>0</td>
+                                                        <td>0 días</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <h6 class="text-xs mt-2"><strong>Información adicional</strong></h6>
+                                            <table class="table-bordered text-xs w-100 mb-1">
+                                                <tr>
+                                                    <th>Dirección:</th>
+                                                    <td>{{cliente[8]}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Teléfono:</th>
+                                                    <td>{{cliente[9]}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Correo electrónico</th>
+                                                    <td>{{cliente[10]}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
 
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="invoice-summary">
+                                            <table class="table-bordered text-xs w-100">
+                                                <tr>
+                                                    <th>Subtotal 15%:</th>
+                                                    <td>{{(total / 1.15) - subtotalServicios | currency}}</td><!--No se suman los servicios-->
+                                                </tr>
+                                                <tr>
+                                                    <th>Subtotal 0%:</th>
+                                                    <!--Cuando es un servicio-->
+                                                    <td>{{subtotalServicios | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Subtotal No Objeto IVA:</th>
+                                                    <td>{{0 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Subtotal Excento IVA:</th>
+                                                    <td>{{0 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Subtotal Sin Impuestos:</th>
+                                                    <td>{{0 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Descuento: </th>
+                                                    <td>{{0 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>ICE</th>
+                                                    <td>{{0 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>IVA 15%:</th>
+                                                    <td>{{(total / 1.15) * 0.15 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Propina:</th>
+                                                    <td>{{0 | currency}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total:</th>
+                                                    <td>{{total | currency}}</td>
+                                                </tr>
+                                                <tfoot>
+                                                    <tr class="table-bordered">
+                                                        <th class="bg-primary"><strong>Valor a pagar:</strong></th>
+                                                        <td>{{total | currency}}</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
 
-                                <div class="invoice-footer text-xs">
-                                    <p>Este documento no tiene valor comercial</p>
+                                    <button type="button" class="btn btn-primary btn-sm">Imprimir</button>
+                                
                                 </div>
 
                             </div>
                         </div>
                     </div>
+                    
                 </div>
                 <!--Modal Factura-->
             </div>

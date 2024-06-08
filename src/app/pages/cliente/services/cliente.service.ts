@@ -40,6 +40,13 @@ export class ClienteService {
     );
   }
 
+  obtenerClienteXDNI(dni: string): Observable<ClienteModel>{
+    let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
+    return this._http.get<ClienteModel>(`${URL}cliente/get-one-dni/${dni}`,{headers}).pipe(
+      map((response:any)=>response.data)
+    );
+  }
+
   actualizarCliente(id: string, data: ClienteInterface): Observable<ClienteModel>{
     let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
     return this._http.put<ClienteModel>(`${URL}cliente/update/${id}`,data,{headers}).pipe(

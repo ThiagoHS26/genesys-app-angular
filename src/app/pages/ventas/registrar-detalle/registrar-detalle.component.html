@@ -1,1 +1,93 @@
-<p>registrar-detalle works!</p>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+    
+                <div class="card">
+                    <div class="card-header">
+                        <form>
+                            <!--Encabezado de la factura-->
+                            <div class="row">
+                                <!--Col-1-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Establecimiento</label>
+                                        <select class="form-control text-sm">
+                                            <option value="" disabled>Selecciona un establecimiento</option>
+                                            @for (item of almacenes; track $index) {
+                                                <option value="{{item.id}}">{{item.nombre}}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--Col-2-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Usuario</label>
+                                        <input type="text" class="form-control" value="{{currentUser.nombres_completos}}" style="font-size: 14px;">
+                                    </div>
+                                </div>
+                                <!--Col-3-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Factura No.</label>
+                                        <input type="text" class="form-control" value="{{invoiceNumber}}" style="font-size: 14px;">
+                                    </div>
+                                </div>
+                                <!--Col-4-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Fecha de emisión</label>
+                                        <input type="text" class="form-control" value="{{invoiceDate}}" style="font-size: 14px;" placeholder="{{invoiceDate}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Encabezado de la factura-->
+
+                            <!--Detalles del cliente-->
+                            <div class="row text-sm">
+                                <!--Col-1-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Cédula/RUC</label>
+                                        <input (keydown)="onKeyDown($event)" type="text" class="form-control" value="{{consumidorFinal.num_doc}}" style="font-size: 14px;">
+                                    </div>
+                                </div>
+                                <!--Col-2-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Nombres</label>
+                                        <input type="text" class="form-control" value="{{consumidorFinal.nombres}}" style="font-size: 14px;">
+                                    </div>
+                                </div>
+                                <!--Col-3-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Dirección</label>
+                                        <input type="text" class="form-control" value="{{consumidorFinal.direccion}}" style="font-size: 14px;">
+                                    </div>
+                                </div>
+                                <!--Col-4-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Correo electrónico</label>
+                                        <input type="text" class="form-control" value="{{consumidorFinal.email}}" style="font-size: 14px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        Start creating your amazing application!
+                    </div>
+    
+                    <div class="card-footer">
+                        Footer
+                    </div>
+    
+                </div>
+    
+             </div>
+        </div>
+    </div>
+</section>   

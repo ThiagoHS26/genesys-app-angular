@@ -25,6 +25,13 @@ export class VentaService {
     );
   }
 
+  obtenerVentaDetalle(id:string): Observable<any>{
+    let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
+    return this._http.get(`${URL}venta-detalle/get-one/${id}`,{headers}).pipe(
+      map((response:any)=>response.data)
+    );
+  }
+
   eliminarVenta(id:string): Observable<any>{
     let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
     return this._http.delete(`${URL}venta/delete/${id}`,{headers}).pipe(
