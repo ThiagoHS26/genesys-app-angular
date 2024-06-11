@@ -1,4 +1,12 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../../../auth/services/auth.service';
+import { DetalleVentaInterface } from '../interfaces/venta-detalle.interface';
+import { Observable, map } from 'rxjs';
+import { VentaDetalleModel } from '../models/venta-detalle.model';
+
+const URL = environment.urlServer;
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +15,11 @@ export class VentaDetalleService {
 
   private prefix: string = '001-001-';
   private currentNumber: number = 1;
+  private token;
 
-  constructor() { }
+  constructor(private _http: HttpClient, private _authSvc: AuthService) { 
+    this.token = this._authSvc.checkAuthentication();
+  }
 
   getNextInvoiceNumber(): string {
     const numberStr = this.currentNumber.toString().padStart(9, '0');
@@ -63,6 +74,13 @@ export class VentaDetalleService {
     const digitoCalculado = modulo === 0 ? 0 : 10 - modulo;
 
     return digitoCalculado === digitoVerificador;
+  }
+
+  registrarDetVenta(id:string, data: DetalleVentaInterface[]): Observable<VentaDetalleModel[]>{
+    let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
+    return this._http.post<VentaDetalleModel[]>(`${URL}venta-producto/create/${id}`, data, {headers}).pipe(
+      map((response:any)=>response.data)
+    );
   }
 
 }

@@ -5,42 +5,61 @@
     
                 <div class="card">
                     <div class="card-header">
-                        <form>
+                        <form (ngSubmit)="registrarVenta()" [formGroup]="cabeceraVentaForm" autocomplete="off">
                             <!--Encabezado de la factura-->
                             <div class="row">
                                 <!--Col-1-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Establecimiento</label>
-                                        <select class="form-control text-sm">
-                                            <option value="" disabled>Selecciona un establecimiento</option>
+                                        
+                                        <label>Establecimiento</label><br>
+                                        <sub *ngIf="campoNoValido('sucursal_id')" class="text-danger">Campo obligatorio</sub>
+                                        <select class="form-control text-sm" formControlName="sucursal_id">
+                                            <option value="" disabled selected>Selecciona un establecimiento</option>
                                             @for (item of almacenes; track $index) {
-                                                <option value="{{item.id}}">{{item.nombre}}</option>
+                                                @if(item.usuario_id === currentUser.id){
+                                                    <option value="{{item.id}}">{{item.nombre}}</option>
+                                                }
                                             }
                                         </select>
                                     </div>
                                 </div>
+                                
                                 <!--Col-2-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Usuario</label>
-                                        <input type="text" class="form-control" value="{{currentUser.nombres_completos}}" style="font-size: 14px;">
+                                        <label>Usuario</label><br>
+                                        <sub *ngIf="campoNoValido('user_id')" class="text-danger">Campo obligatorio</sub>
+                                        <select class="form-control text-sm" formControlName="user_id">
+                                            <option value="" disabled selected>Selecciona un usuario</option>
+                                            @for (item of almacenes; track $index) {
+                                                @if(item.usuario_id === currentUser.id){
+                                                    <option value="{{currentUser.id}}">{{currentUser.nombres_completos}}</option>
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </div>
+                                
                                 <!--Col-3-->
+
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Factura No.</label>
-                                        <input type="text" class="form-control" value="{{invoiceNumber}}" style="font-size: 14px;">
+                                        <label>Factura No.</label><br>
+                                        <sub *ngIf="campoNoValido('fecha_emision')" class="text-danger">Campo obligatorio</sub>
+                                        <input type="text" class="form-control" style="font-size: 14px;" placeholder="{{invoiceNumber}}" value="{{invoiceNumber}}" formControlName="num_factura">
                                     </div>
                                 </div>
+                                <sub *ngIf="campoNoValido('num_factura')" class="text-danger">Campo obligatorio</sub>
                                 <!--Col-4-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Fecha de emisión</label>
-                                        <input type="text" class="form-control" value="{{invoiceDate}}" style="font-size: 14px;" placeholder="{{invoiceDate}}">
+                                        <label>Fecha de emisión</label><br>
+                                        <sub *ngIf="campoNoValido('fecha_emision')" class="text-danger">Campo obligatorio</sub>
+                                        <input type="text" class="form-control" style="font-size: 14px;" formControlName="fecha_emision">
                                     </div>
                                 </div>
+                                
                             </div>
                             <!--Encabezado de la factura-->
 
@@ -49,40 +68,210 @@
                                 <!--Col-1-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Cédula/RUC</label>
-                                        <input (keydown)="onKeyDown($event)" type="text" class="form-control" value="{{consumidorFinal.num_doc}}" style="font-size: 14px;">
+                                        <label>Cédula/RUC</label><br>
+                                        <sub *ngIf="campoNoValido('ndoc_cliente')" class="text-danger">Campo obligatorio</sub>
+                                        <input (keydown)="onKeyDown($event)" (dblclick)="dblClick($event)" value="{{cliente.dni}}" type="text" class="form-control" style="font-size: 14px;" formControlName="ndoc_cliente" placeholder="Digita la cédula">
+                                        <input style="display: none;" formControlName="cliente_id">
                                     </div>
                                 </div>
+                                
                                 <!--Col-2-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Nombres</label>
-                                        <input type="text" class="form-control" value="{{consumidorFinal.nombres}}" style="font-size: 14px;">
+                                        <label>Nombres</label><br>
+                                        <sub *ngIf="campoNoValido('rs_cliente')" class="text-danger">Campo obligatorio</sub>
+                                        <input type="text" class="form-control" style="font-size: 14px;" formControlName="rs_cliente" placeholder="Nombres completos">
                                     </div>
                                 </div>
+                                
                                 <!--Col-3-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Dirección</label>
-                                        <input type="text" class="form-control" value="{{consumidorFinal.direccion}}" style="font-size: 14px;">
+                                        <label>Dirección</label><br>
+                                        <sub *ngIf="campoNoValido('dir_cliente')" class="text-danger">Campo obligatorio</sub>
+                                        <input type="text" class="form-control" style="font-size: 14px;" formControlName="dir_cliente" placeholder="Dirección">
                                     </div>
                                 </div>
+                                
                                 <!--Col-4-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
-                                        <label>Correo electrónico</label>
-                                        <input type="text" class="form-control" value="{{consumidorFinal.email}}" style="font-size: 14px;">
+                                        <label>Correo electrónico</label><br>
+                                        <sub *ngIf="campoNoValido('email_cliente')" class="text-danger">Campo obligatorio</sub>
+                                        <input type="text" class="form-control" style="font-size: 14px;" formControlName="email_cliente" placeholder="Correo electrónico">
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row text-sm">
+                                <!--Col-1-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Teléfono</label><br>
+                                        <sub *ngIf="campoNoValido('telf_cliente')" class="text-danger">Campo obligatorio</sub>
+                                        <input type="text" class="form-control" style="font-size: 14px;" formControlName="telf_cliente" placeholder="Contacto">
+                                    </div>
+                                </div>
+                                
+                                <!--Col-2-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Estado de la venta</label><br>
+                                        <sub *ngIf="campoNoValido('estado_venta')" class="text-danger">Campo obligatorio</sub>
+                                        <select class="form-control text-sm" formControlName="estado_venta">
+                                            <option value="" disabled selected>Selecciona el estado</option>
+                                            @for (item of estadoVenta; track $index) {
+                                                <option>{{item}}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!--Col-3-->
+                                <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Forma de pago</label><br>
+                                        <sub *ngIf="campoNoValido('forma_pago')" class="text-danger">Campo obligatorio</sub>
+                                        <select class="form-control text-sm" formControlName="forma_pago">
+                                            <option value="" disabled selected>Selecciona forma de pago</option>
+                                            @for (item of formaPagoVenta; track $index) {
+                                                <option>{{item}}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                 <!--Col-4-->
+                                 <div class="col-sm-3">
+                                    <div class="form-group text-sm">
+                                        <label>Observaciones</label>
+                                        <textarea class="form-control" style="font-size: 14px;" formControlName="observaciones" placeholder="Escribe un comentario"></textarea>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <button type="submit" class="btn btn-primary btn-sm mr-1" *ngIf="btnGrabarVenta">Grabar</button>
+                                <button type="button" class="btn btn-success btn-sm" (click)="registrarDetVenta()" *ngIf="btnDetalleVenta">Añadir detalles</button>
+                            </div>
+
                         </form>
                     </div>
+                    
                     <div class="card-body">
-                        Start creating your amazing application!
+                        <div class="row">
+                            <div class="col-4">
+                                <h4 class="text-sm">Artículos en stock</h4>
+                                <input class="form-control filter" type="text" placeholder="Buscar..." (input)="filterOptions($event)">
+                                <span class="info-container">
+                                    <sub class="info">Mostrando {{totalArticulos}} elementos</sub>
+                                </span>
+                                <select multiple="multiple" class="form-control text-sm">
+                                    @for (item of articulos; track $index) {
+                                        <option (click)="addArticulo(item)">{{item.nombre_producto}}</option>
+                                    }
+                                    <!--<option *ngFor="let item of articulos;" (click)="addArticulo(item)">{{item.nombre_producto}}</option>-->
+                                </select>
+                            </div>
+                            <div class="col-8 table-responsive">
+                                
+                                <table class="table table-bordered text-sm text-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20px;">#</th>
+                                            <th style="width: 50px;">Código</th>
+                                            <th>Artículo</th>
+                                            <th style="width: 40px;">P.Venta</th>
+                                            <th style="width: 40px;">Cant.</th>
+                                            <th style="width: 40px;">Desc.</th>
+                                            <th style="width: 80px;"><i class="fas fa-cog"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of detalleVenta; let i = index;">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item.codigo}}</td>
+                                            <td>{{item.nombre_producto}}</td>
+                                            <td>
+                                                <input type="number" style="width: 60px;" (change)="capturaPrecio($event, item.producto_id)" class="text-center" value="{{item.precio_venta}}">
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 60px;" (change)="capturaCantidad($event,item.producto_id)" class="text-center" value="{{item.cantidad}}">
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 60px;" (change)="capturaDescuento($event, item.producto_id)" class="text-center" value="{{item.descuento}}">
+                                            </td>
+                                            <td>
+                                                <button (click)="deleteItem(i, item)" type="button" class="btn btn-danger btn-xs mr-1">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
                     </div>
     
                     <div class="card-footer">
-                        Footer
+                        
+                        <div class="row">
+
+                            
+
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal 15%</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getSubtotal() | number:'1.2-2'}}" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal 0%</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal No Objeto IVA</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal Exento IVA</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal Sin Impuestos</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">ICE</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">IVA 15%</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getTotal() - getSubtotal() | number:'1.2-2'}}" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Propina</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Total</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getTotal() | number:'1.2-2'}}" readonly>
+                                </div>
+                                <hr>
+                                <div class="input-group">
+                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Total a pagar</label>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getTotal() | number:'1.2-2'}}" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+            
                     </div>
     
                 </div>

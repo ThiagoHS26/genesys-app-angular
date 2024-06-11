@@ -4,6 +4,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { VentaModel } from '../models/venta.model';
 import { Observable, map } from 'rxjs';
+import { VentaInterface } from '../interfaces/venta.interface';
 
 const URL = environment.urlServer;
 
@@ -35,6 +36,13 @@ export class VentaService {
   eliminarVenta(id:string): Observable<any>{
     let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
     return this._http.delete(`${URL}venta/delete/${id}`,{headers}).pipe(
+      map((response:any)=>response.data)
+    );
+  }
+
+  registrarVenta(data: VentaInterface): Observable<VentaModel>{
+    let headers = new HttpHeaders({'Authorization':`Bearer ${this.token}`});
+    return this._http.post<VentaModel>(`${URL}venta/create`,data, {headers}).pipe(
       map((response:any)=>response.data)
     );
   }
