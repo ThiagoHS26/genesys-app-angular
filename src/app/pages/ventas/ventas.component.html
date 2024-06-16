@@ -10,8 +10,8 @@
                     </div>
 
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
+                        <table id="example1" class="table table-bordered table-striped text-sm">
+                            <thead class="bg-dark text-white">
                                 <tr>
                                     <th>#</th>
                                     <th>Fecha</th>
@@ -64,19 +64,16 @@
                                         </div>
                                         <div class="col-md-6 text-xs">
                                             <h5><strong>R.U.C </strong>{{currentUser.numero_documento}}</h5>
-                                            @for (item of ventas; track $index) {
-                                                <h6><strong>FACTURA</strong></h6>
-                                                <p><span>NO. </span>{{item.num_factura}}</p>
-                                                <h6><strong>NÚMERO DE AUTORIZACIÓN</strong></h6>
-                                                <p>123456789987654123654987</p>
-                                                <h6><strong>FECHA Y HORA DE AUTORIZACIÓN</strong></h6>
-                                                <p>{{item.createdAt | date: 'mediumDate'}} | {{item.createdAt | date: 'mediumTime'}}</p>
-                                                <p><strong>AMBIENTE: </strong>PRODUCCIÓN</p>
-                                                <p><strong>EMISIÓN: </strong>NORMAL</p>
-                                                <p><strong>CLAVE DE ACCESO</strong></p>
-                                                <span>5487412541236987412541252369855</span>
-                                            }
-                                            
+                                            <h6><strong>FACTURA</strong></h6>
+                                            <p><span>NO. </span>{{ventaDetalle.num_factura}}</p>
+                                            <h6><strong>NÚMERO DE AUTORIZACIÓN</strong></h6>
+                                            <p>123456789987654123654987</p>
+                                            <h6><strong>FECHA Y HORA DE AUTORIZACIÓN</strong></h6>
+                                            <p>{{ventaDetalle.createdAt | date: 'mediumDate'}} | {{ventaDetalle.createdAt | date: 'mediumTime'}}</p>
+                                            <p><strong>AMBIENTE: </strong>PRODUCCIÓN</p>
+                                            <p><strong>EMISIÓN: </strong>NORMAL</p>
+                                            <p><strong>CLAVE DE ACCESO</strong></p>
+                                            <span>5487412541236987412541252369855</span>
                                         </div>
                                     </div>
                                     
@@ -88,9 +85,9 @@
                                       
                                         <tr>
                                             <th>Nombres / Razón social:</th>
-                                            <td>{{cliente[5]}}</td>
+                                            <td>{{cliente.razon_social}}</td>
                                             <th>R.U.C / C.I:</th>
-                                            <td>{{cliente[4]}}</td>
+                                            <td>{{cliente.numero_documento}}</td>
                                         </tr>
                                         <tr>
                                             <th>Fecha emsión: </th>
@@ -113,7 +110,7 @@
                                             </tr>
                                         </thead>
                                         <tbody >
-                                            <tr *ngFor="let item of ventaDetalle[25]">
+                                            <tr *ngFor="let item of ventaDetalle.detVentas">
                                                 <td>{{item.codigo_producto}}</td>
                                                 <td>{{item.nombre_producto}}</td>
                                                 <td>{{item.cantidad}}</td>
@@ -155,15 +152,15 @@
                                             <table class="table-bordered text-xs w-100 mb-1">
                                                 <tr>
                                                     <th>Dirección:</th>
-                                                    <td>{{cliente[8]}}</td>
+                                                    <td>{{cliente.direccion}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Teléfono:</th>
-                                                    <td>{{cliente[9]}}</td>
+                                                    <td>{{cliente.telefono}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Correo electrónico</th>
-                                                    <td>{{cliente[10]}}</td>
+                                                    <td>{{cliente.correo}}</td>
                                                 </tr>
                                             </table>
                                         </div>

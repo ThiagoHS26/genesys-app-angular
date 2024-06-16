@@ -11,9 +11,10 @@ import { ComprasComponent } from './compras/compras.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-compra.component';
 import { RegistrarDetalleComponent } from './ventas/registrar-detalle/registrar-detalle.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
-  {path:'', component: PagesComponent, //canActivate: [AuthGuard],
+  {path:'', component: PagesComponent, canActivate: [AuthGuard],
     children:[
       {path:'dashboard', component: DashboardComponent, data:{titulo:'Dashboard'}},
       {path:'usuarios', component: UsuariosComponent, data:{titulo:'Usuarios'}},

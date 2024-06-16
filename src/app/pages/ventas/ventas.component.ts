@@ -18,8 +18,25 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   public currentUser;
   public ventas:VentaModel[] = [];
-  public cliente:Array<any> = [];
-  public ventaDetalle:Array<any> = [];
+  public cliente={
+    razon_social:'',
+    numero_documento:'',
+    direccion:'',
+    telefono:'',
+    correo:''
+  };
+  public ventaDetalle = {
+    num_factura: '',
+    createdAt:'',
+    detVentas: [{
+      codigo_producto:'',
+      nombre_producto:'',
+      cantidad:0,
+      precio_venta:0,
+      descuento:0,
+      subtotal:0
+    }]
+  };
   public productos:Array<any> = [];
   public total:number = 0;
   public fechaEmision;
@@ -47,7 +64,14 @@ export class VentasComponent implements OnInit, OnDestroy {
             this.ventas = res
           },
           error: (err:any) => {
-            console.log(err);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: 'No hay ventas registradas',
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         }
       )
@@ -93,8 +117,9 @@ export class VentasComponent implements OnInit, OnDestroy {
     this._ventaSvc.obtenerVentaDetalle(id).pipe(
       mergeMap((venta: any) => {
         this.total = venta.total_venta;
-        this.ventaDetalle = Object.values(venta);
-
+        console.log(this.total);
+        this.ventaDetalle = venta;
+        console.log(this.ventaDetalle);
         const cliente$ = this._clienteSvc.obtenerClienteXId(venta.cliente_id);
 
         // Crear un array de observables para cada producto
@@ -113,7 +138,7 @@ export class VentasComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe({
       next: ({ cliente, productos }) => {
-        this.cliente = Object.values(cliente);
+        this.cliente = cliente;
         this.productos = productos;
         this.productos.forEach(element => {
           if(element.tipo_prod === "SERVICIO"){

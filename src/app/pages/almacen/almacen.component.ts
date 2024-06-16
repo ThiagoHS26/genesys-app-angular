@@ -19,12 +19,12 @@ export class AlmacenComponent implements OnInit, OnDestroy{
 
   @ViewChild('modalTitle') modalRef!:ElementRef;
 
+  public tipos:Array<string> = ['SUCURSAL','MATRIZ'];
+
   public modalTitulo!:string;
   public showRegisterBtn: Boolean = true;
   public showEditBtn: Boolean = true;
 
-  public dtOptions: ADTSettings = {};
-  public dtTrigger = new Subject<ADTSettings>();
   public almacenes: AlmacenModel[] = [];
   public usuarios: UsuarioModel[] = [];
 
@@ -38,24 +38,15 @@ export class AlmacenComponent implements OnInit, OnDestroy{
       ciudad: ['',[Validators.required]],
       direccion: ['',[Validators.required]],
       correo: ['',[Validators.required]],
-      movil: ['',[Validators.required]],
       telefono: ['',[Validators.required]],
+      tipo:['',[Validators.required]],
       usuario_id: ['',[Validators.required]]
     });
   }
   
   ngOnInit(): void {
-    this.configDtOptions();
     this.getAlmacenes();
     this.getUsuarios();
-  }
-
-  configDtOptions(){
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json'}
-    };
   }
   
   addRegisterTitle(){
@@ -68,15 +59,9 @@ export class AlmacenComponent implements OnInit, OnDestroy{
   }
 
   resetAlmacenForm(){
-    this.almacenForm.setValue({
-      nombre: '',
-      provincia: '',
-      ciudad: '',
-      direccion: '',
-      correo: '',
-      movil: '',
-      telefono: '',
-      usuario_id: ''
+    this.almacenForm.reset({
+      usuario_id: '',
+      tipo: ''
     })
   }
 
@@ -97,9 +82,9 @@ export class AlmacenComponent implements OnInit, OnDestroy{
               ciudad: res['ciudad'],
               direccion: res['direccion'],
               correo: res['correo'],
-              movil: res['movil'],
               telefono: res['telefono'],
-              usuario_id: res['usuario_id']
+              usuario_id: res['usuario_id'],
+              tipo: res['tipo']
             })
           },
           error: (err: any) => {
@@ -115,10 +100,16 @@ export class AlmacenComponent implements OnInit, OnDestroy{
         {
           next: (res: AlmacenModel[]) => {
             this.almacenes = res;
-            this.dtTrigger;
           },
           error: (err: any)=>{
-            console.log(err);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: 'No hay almacenes registrados',
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         }
       )
@@ -158,7 +149,7 @@ export class AlmacenComponent implements OnInit, OnDestroy{
             }).then((result)=>{
               if(result.isConfirmed){
                 this.getAlmacenes();
-                this.almacenForm.reset();
+                this.resetAlmacenForm();
                 this.almacenFormSubmitted = false;
               }
             })
@@ -235,7 +226,7 @@ export class AlmacenComponent implements OnInit, OnDestroy{
   }
 
   changeUser(evento:any){
-    console.log(evento);
+    //console.log(evento);
   }
 
   campoNoValido(campo: string){
@@ -247,6 +238,5 @@ export class AlmacenComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

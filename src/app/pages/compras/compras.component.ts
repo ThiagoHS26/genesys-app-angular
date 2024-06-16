@@ -4,8 +4,6 @@ import { CompraService } from './services/compra.service';
 import { ProveedorService } from '../distribuidor/services/proveedor.service';
 import Swal from 'sweetalert2';
 import { Subject, forkJoin, map, mergeMap, takeUntil } from 'rxjs';
-import { UsuarioService } from '../usuarios/services/usuario.service';
-import { UsuarioModel } from '../usuarios/models/usuario.model';
 
 @Component({
   selector: 'app-compras',
@@ -17,16 +15,21 @@ export class ComprasComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   public compras:Array<CompraModel> = [];
-  public proveedor:Array<any>=[];
+  public proveedor = {
+    ciudad:"",
+    direccion:"",
+    razon_social:"",
+    correo:""
+  };
   public facturaCompra:Array<any>=[];
-  public usuario:Array<any>=[];
+  public usuario;
   public total:number = 0;
 
   constructor(
     private _compraSvc: CompraService, 
     private _provSvc: ProveedorService
   ){
-    this.usuario = Object.values(JSON.parse(localStorage.getItem('identity')!));
+    this.usuario = JSON.parse(localStorage.getItem('identity')!);
   }
 
   ngOnInit(): void {
@@ -41,7 +44,14 @@ export class ComprasComponent implements OnInit, OnDestroy {
           this.compras = res;
         },
         error: (err: any) => {
-          console.log(err);
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: 'No hay compras registradas',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       }
      )
@@ -58,7 +68,7 @@ export class ComprasComponent implements OnInit, OnDestroy {
     ).subscribe(
       {
         next:(prov: any)=>{
-          this.proveedor = Object.values(prov);
+          this.proveedor = prov;
         },
         error: (err:any)=>{
           console.log(err);

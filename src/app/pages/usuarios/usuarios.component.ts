@@ -34,10 +34,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private _fb: FormBuilder
   ){
     this.registerForm = this._fb.group({
-      tipo_documento: ['',[Validators.required]],
       numero_documento: ['',[Validators.required]],
       nombres_completos: ['',[Validators.required]],
       username: ['',[Validators.required]],
+      direccion: ['',[Validators.required]],
+      ciudad: ['',[Validators.required]],
       email: ['',[Validators.required]],
       password: ['',[Validators.required]],
       password_verify: ['',[Validators.required]],
@@ -49,10 +50,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     } as FormControlOptions);
 
     this.editForm = this._fb.group({
-      tipo_documento: ['',[Validators.required]],
       numero_documento: ['',[Validators.required]],
       nombres_completos: ['',[Validators.required]],
       username: ['',[Validators.required]],
+      direccion: ['',[Validators.required]],
+      ciudad: ['',[Validators.required]],
       email: ['',[Validators.required]],
       movil: ['',[Validators.required]],
       role: ['',[Validators.required]],
@@ -69,8 +71,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.configDtOptions();
-    this.getUsers();
-    
+    this.getUsers(); 
   }
 
   configDtOptions(){
@@ -133,10 +134,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
           next: (res: UsuarioModel) => {
             localStorage.setItem('idUser',id);
             this.editForm.setValue({
-              tipo_documento: res['tipo_documento'],
               numero_documento: res['numero_documento'],
               nombres_completos: res['nombres_completos'],
               username: res['username'],
+              direccion: res['direccion'],
+              ciudad: res['ciudad'],
               email: res['email'],
               movil: res['movil'],
               role: res['role'],
@@ -161,19 +163,25 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         {
           next: (res: UsuarioModel) => {
             Swal.fire({
-              icon:'success',
               title: 'Usuario actualizado',
-              showConfirmButton: false,
-              timer: 1500
+              text: 'El usuario ha sido actualizado',
+              icon:'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ok'
+            }).then((result)=>{
+              if(result.isConfirmed){
+                this.getUsers();
+                this.editForm.reset({
+                  tipo_documento: '',
+                  role: '',
+                  estado: ''
+                });
+                localStorage.removeItem('idUser');
+                this.editFormSubmitted = false;
+              }
             });
-            this.editForm.reset({
-              tipo_documento: '',
-              role: '',
-              estado: ''
-            });
-            localStorage.removeItem('idUser');
-            this.editFormSubmitted = false;
-            this.getUsers();
           },
           error: (err: any) => {
             console.log(err);

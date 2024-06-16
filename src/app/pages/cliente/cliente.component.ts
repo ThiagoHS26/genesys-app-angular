@@ -1,6 +1,4 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ADTSettings } from 'angular-datatables/src/models/settings';
-import { Subject } from 'rxjs';
 import { ClienteService } from './services/cliente.service';
 import { ClienteModel } from './models/cliente.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,10 +16,6 @@ export class ClienteComponent implements OnInit, OnDestroy {
   public showRegisterBtn: Boolean = true;
   public showEditBtn: Boolean = true;
 
-  //Data Table configuraciones
-  public dtOptions: ADTSettings = {};
-  public dtTrigger = new Subject<ADTSettings>();
-
   public TipoDocumento: Array<string> = ['CEDULA','PASAPORTE','RUC'];
   public Estados: Array<string> = ['ACTIVO','INACTIVO'];
   public clientes: ClienteModel[] = [];
@@ -32,7 +26,6 @@ export class ClienteComponent implements OnInit, OnDestroy {
 
   constructor(private _clienteSvc: ClienteService, private _fb: FormBuilder){
     this.clienteForm = this._fb.group({
-      tipo_documento: ['', [Validators.required]],
       numero_documento: ['', [Validators.required]],
       nombres_completos: ['', [Validators.required]],
       razon_social: ['', [Validators.required]],
@@ -45,24 +38,10 @@ export class ClienteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.configOptions();
     this.getClientes();
   }
 
-  configOptions(){
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json'},
-      destroy: true
-    };
-  }
-
   addRegisterTitle(){
-    this.clienteForm.reset({
-      tipo_documento: '',
-      status: ''
-    });
     this.showRegisterBtn = true;
     this.showEditBtn = false;
     this.modalTitulo = "Agregar cliente";
@@ -76,10 +55,16 @@ export class ClienteComponent implements OnInit, OnDestroy {
         {
           next: (res: ClienteModel[]) => {
             this.clientes = res;
-            this.dtTrigger.next(this.dtOptions);
           },
           error: (err: any) => {
-            console.log(err);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: 'No hay clientes registrados',
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         }
       )
@@ -106,11 +91,9 @@ export class ClienteComponent implements OnInit, OnDestroy {
               if(result.isConfirmed){
                 this.getClientes();
                 this.clienteForm.reset({
-                  tipo_documento:'',
                   status: ''
                 });
                 this.clienteFormSubmitted = false;
-                location.reload();
               }
             })
           },
@@ -133,7 +116,6 @@ export class ClienteComponent implements OnInit, OnDestroy {
           next: (res: ClienteModel) => {
             localStorage.setItem('idClient',id);
             this.clienteForm.setValue({
-              tipo_documento: res['tipo_documento'],
               numero_documento: res['numero_documento'],
               nombres_completos: res['nombres_completos'],
               razon_social: res['razon_social'],
@@ -173,12 +155,11 @@ export class ClienteComponent implements OnInit, OnDestroy {
               if(result.isConfirmed){
                 this.getClientes();
                 this.clienteForm.reset({
-                  tipo_documento:'',
                   status: ''
                 });
                 localStorage.removeItem('idClient');
                 this.clienteFormSubmitted = false;
-                location.reload();
+                this.getClientes();
               }
             })
           },
@@ -213,7 +194,6 @@ export class ClienteComponent implements OnInit, OnDestroy {
                   showConfirmButton: false
                 });
                 this.getClientes();
-                location.reload();
               },
               error: (err: any) => {
                 console.log(err);
@@ -233,7 +213,7 @@ export class ClienteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger?.unsubscribe();
+    
   }
 
 }

@@ -1,0 +1,89 @@
+<div class="login-page" style="min-height: 496.781px;">
+    <div class="login-box">
+        <div class="card">
+            <div class="login-logo">
+            </div>
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg">CREA TU CUENTA</p>
+                    <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="createUser()">
+
+                        <!--Numero de documento-->
+                        <sub *ngIf="campoNoValido('numero_documento')" class="text-danger">Campo requerido</sub>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Número de documento" formControlName="numero_documento" >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!--Nombres completos-->
+                        <sub *ngIf="campoNoValido('nombres_completos')" class="text-danger">Campo requerido</sub>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!--Nombre de usuario-->
+                        <sub *ngIf="campoNoValido('username')" class="text-danger">Campo requerido</sub>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!--Correo electronico-->
+                        <sub *ngIf="campoNoValido('email')" class="text-danger">Campo requerido</sub>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Correo electrónico" formControlName="email">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope" style="color: rgb(48, 37, 37);"></span>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!--Contraseña-->
+                        <sub *ngIf="campoNoValido('password')" class="text-danger">Campo requerido</sub>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Contraseña" formControlName="password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock" style="color: rgb(48, 37, 37);;"></span>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!--Verificar contraseña--> 
+                        <sub *ngIf="campoNoValido('password_verify')" class="text-danger">Contraseña diferente</sub>
+                        <div class="input-group mb-3"> <!--Agregar un control automatico-->
+                            <input type="password" class="form-control" placeholder="Repetir contraseña" formControlName="password_verify">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock" style="color: rgb(48, 37, 37);;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+        
+                        <div class="row">
+                            <div class="modal-footer justify-content-between">
+                                <button type="submit" class="btn btn-primary">Registrar</button>
+                                <a routerLink="/login">Regresar al login</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,10 +6,8 @@ export class AlmacenModel {
         public ciudad: string,
         public direccion: string,
         public correo: string,
-        public movil: string,
         public telefono: string,
-        public email: string,
-        public estado: string,
+        public tipo: string,
         public usuario_id: string,
         public createdAt: string,
         public updatedAt: string

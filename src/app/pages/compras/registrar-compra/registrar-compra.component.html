@@ -15,7 +15,7 @@
                                         <sub *ngIf="campoNoValido('num_factura')" class="text-danger">Campo obligatorio</sub>
                                         <div class="form-group">
                                             <label class="text-sm">Factura No.</label>
-                                            <input type="text" class="form-control text-sm" formControlName="num_factura">
+                                            <input type="number" class="form-control text-sm" formControlName="num_factura">
                                         </div>
 
                                         <sub *ngIf="campoNoValido('fecha_emision')" class="text-danger">Campo obligatorio</sub>
@@ -83,7 +83,7 @@
 
                                         <div class="form-group">
                                             <label for="">Observaciones</label>
-                                            <textarea class="form-control text-sm" formControlName="observaciones">Observaciones</textarea>
+                                            <textarea class="form-control text-sm" formControlName="observaciones" appUppercase>Observaciones</textarea>
                                         </div>
 
                                     </div>

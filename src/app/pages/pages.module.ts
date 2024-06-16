@@ -16,10 +16,14 @@ import { ComprasComponent } from './compras/compras.component';
 import { RegistrarCompraComponent } from './compras/registrar-compra/registrar-compra.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { RegistrarDetalleComponent } from './ventas/registrar-detalle/registrar-detalle.component';
+import { UppercaseDirective } from '../directives/uppercase.directive'; 
+import { ValidateCedulaDirective } from '../directives/validate-cedula.directive';
 
 
 @NgModule({
   declarations: [
+    UppercaseDirective,
+    ValidateCedulaDirective,
     PagesComponent,
     DashboardComponent,
     UsuariosComponent,

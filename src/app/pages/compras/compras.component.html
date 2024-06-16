@@ -10,8 +10,8 @@
                     </div>
 
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
+                        <table id="example1" class="table table-bordered table-striped text-sm">
+                            <thead class="bg-dark text-white">
                                 <tr>
                                     <th>#</th>
                                     <th>Fecha</th>
@@ -70,17 +70,17 @@
                                         <tr>
                                             <td>
                                                 <strong>Emisor:</strong><br>
-                                                {{proveedor[6]}}<br>
-                                                {{proveedor[8]}}<br>
-                                                {{proveedor[7]}}<br>
-                                                {{proveedor[10]}}
+                                                {{proveedor.ciudad}}<br>
+                                                {{proveedor.direccion}}<br>
+                                                {{proveedor.razon_social}}<br>
+                                                {{proveedor.correo}}
                                             </td>
                                             <td>
                                                 <strong>Cliente:</strong><br>
-                                                {{usuario[5]}}<br>
-                                                Direccion<br>
-                                                Ciudad<br>
-                                                {{usuario[9]}}<br>
+                                                {{usuario.ciudad}}<br>
+                                                {{usuario.direccion}}<br>
+                                                {{usuario.nombres_completos}}<br>
+                                                {{usuario.email}}<br>
                                                 
                                             </td>
                                         </tr>

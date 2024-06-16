@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { LoginInterface } from '../interfaces/login.interface';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { UsuarioModel } from '../../pages/usuarios/models/usuario.model';
+import { UsuarioInterface } from '../interfaces/register.interface';
 
 const URL = environment.urlServer;
 
@@ -22,6 +23,12 @@ export class AuthService {
   login(data: LoginInterface): Observable<any>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
     return this._http.post(`${URL}login`, data, {headers: headers});
+  }
+
+  register(data: UsuarioInterface): Observable<any>{
+    return this._http.post(`${URL}user/create`,data).pipe(
+      map((response:any)=>response.data)
+    );
   }
 
   checkAuthentication():Observable<any>{

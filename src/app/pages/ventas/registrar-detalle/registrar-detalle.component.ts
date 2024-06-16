@@ -29,7 +29,7 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
   public totalArticulos: number = 0;
 
   public cliente = {
-    id : '18cb0bf7-0cc9-47c2-bc84-3f43d48e5203',
+    id : 'bd7716aa-6f9e-400c-badf-8ac298c35a5f',
     dni:'9999999999999',
     razon_social:'CONSUMIDOR FINAL',
     direccion:'...',
@@ -189,7 +189,7 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
               cancelButtonColor: '#d33',
             }).then((result)=>{
               if(result.isConfirmed){
-                //this.registrarCliente(cedula);
+                this._router.navigate(['../../cliente']);
               }else {
                 this.cabeceraVentaForm.get('cliente_id')?.setValue(this.cliente.id);
                 this.cabeceraVentaForm.get('ndoc_cliente')?.setValue(this.cliente.dni);

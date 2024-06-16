@@ -18,9 +18,6 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
   public showRegisterBtn: Boolean = true;
   public showEditBtn: Boolean = true;
 
-  public dtOptions: ADTSettings = {};
-  public dtTrigger = new Subject<ADTSettings>();
-
   public TipoDocumento:Array<string>= ['CEDULA','RUC','PASAPORTE'];
   public Estados:Array<string>= ['ACTIVO','INACTIVO'];
   
@@ -30,7 +27,6 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
 
   constructor(private _provSvc: ProveedorService, private _fb:FormBuilder){
     this.proveedorForm = this._fb.group({
-      tipo_documento: ['', [Validators.required]],
       numero_documento: ['', [Validators.required]],
       nombres_completos: ['', [Validators.required]],
       razon_social: ['', [Validators.required]],
@@ -44,13 +40,11 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.configOptions();
     this.getProveedores();
   }
 
   addRegisterTitle(){
     this.proveedorForm.reset({
-      tipo_documento: '',
       estado: ''
     });
     this.showRegisterBtn = true;
@@ -60,24 +54,22 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
     headTitle.innerHTML = this.modalTitulo;
   }
 
-  configOptions(){
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json'},
-    };
-  }
-
   getProveedores(){
     this._provSvc.obtenerProveedores()
       .subscribe(
         {
           next: (res: ProveedorModel[]) => {
             this.proveedores = res;
-            this.dtTrigger.next(this.dtOptions);
           },
           error: (err: any) => {
-            console.log(err);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: 'No hay proveedores registrados',
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         }
       )
@@ -94,21 +86,20 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
           next: (res: ProveedorModel) => {
             Swal.fire({
               title: 'Almacén creado',
-              text: 'El almacén ha sido creado',
+              text: 'El proveedor ha sido creado',
               icon:'success',
               showCancelButton: false,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Ok'
             }).then((result)=>{
+              this.getProveedores();
               if(result.isConfirmed){
                 this.getProveedores();
                 this.proveedorForm.reset({
-                  tipo_documento:'',
                   estado: ''
                 });
                 this.proveedorFormSubmitted = false;
-                location.reload();
               }
             })
           },
@@ -131,7 +122,6 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
         {
           next: (res: ProveedorModel) => {
             this.proveedorForm.setValue({
-              tipo_documento: res['tipo_documento'],
               numero_documento: res['numero_documento'],
               nombres_completos: res['nombres_completos'],
               razon_social: res['razon_social'],
@@ -172,12 +162,10 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
               if(result.isConfirmed){
                 this.getProveedores();
                 this.proveedorForm.reset({
-                  tipo_documento:'',
                   estado: ''
                 });
                 this.proveedorFormSubmitted = false;
                 localStorage.removeItem('idProv');
-                location.reload();
               }
             })
           },
@@ -211,7 +199,6 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
                     showConfirmButton: false
                   });
                   this.getProveedores();
-                  location.reload();
                 },
                 error: (err: any) => {
                   console.log(err);
@@ -231,7 +218,6 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger?.unsubscribe();
   }
 
 }

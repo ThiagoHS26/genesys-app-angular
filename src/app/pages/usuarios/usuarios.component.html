@@ -11,12 +11,13 @@
                     <!--Card Body-->
                     <div class="card-body">
                         <!--Tabla-->
-                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered text-sm">
                             <thead class="bg-dark text-white">
                                 <tr>
                                     <th>No.</th>
                                     <th>Nombres</th>
                                     <th>Correo</th>
+                                    <th>Usuario</th>
                                     <th>Contacto</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
@@ -28,6 +29,7 @@
                                     <td>{{i+1}}</td>
                                     <td>{{item.nombres_completos}}</td>
                                     <td>{{item.email}}</td>
+                                    <td>{{item.username}}</td>
                                     <td>{{item.movil}}</td>
                                     <td>{{item.role}}</td>
                                     <td>{{item.estado}}</td>
@@ -57,27 +59,35 @@
                             <div class="modal-body">
                                 <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="createUser()">
 
-                                    <!--Tipo Documento-->
-                                    <small *ngIf="campoNoValido('tipo_documento')" class="text-danger">Selecciona un documento</small>
-                                    <div class="form-group mb-3">
-                                        <div class="input-group-append">
-                                            <select class="form-control" (change)="changeDoc($event)" formControlName="tipo_documento">
-                                                <option value="">Tipo de documento</option>
-                                                <option *ngFor="let item of TipoDocumento">{{item}}</option>
-                                            </select>
-                                            <div class="input-group-text">
-                                                <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!--Numero de documento-->
                                     <sub *ngIf="campoNoValido('numero_documento')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder="Número de documento" formControlName="numero_documento" >
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Ciudad-->
+                                    <sub *ngIf="campoNoValido('ciudad')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad" appUppercase>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-city" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Direccion-->
+                                    <sub *ngIf="campoNoValido('direccion')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion" appUppercase>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-map" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -85,10 +95,10 @@
                                     <!--Nombres completos-->
                                     <sub *ngIf="campoNoValido('nombres_completos')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos">
+                                        <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +106,7 @@
                                     <!--Nombre de usuario-->
                                     <sub *ngIf="campoNoValido('username')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username">
+                                        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>
@@ -171,7 +181,7 @@
                                                 <option *ngFor="let item of Estados">{{item}}</option>
                                             </select>
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -203,27 +213,35 @@
                             <div class="modal-body">
                                 <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateUser()">
 
-                                    <!--Tipo Documento-->
-                                    <small *ngIf="campoNoValido('tipo_documento')" class="text-danger">Selecciona un documento</small>
-                                    <div class="form-group mb-3">
-                                        <div class="input-group-append">
-                                            <select class="form-control" (change)="changeDoc($event)" formControlName="tipo_documento">
-                                                <option value="">Tipo de documento</option>
-                                                <option *ngFor="let item of TipoDocumento">{{item}}</option>
-                                            </select>
-                                            <div class="input-group-text">
-                                                <span class="fas fa-address-card" style="color: rgb(48, 37, 37);"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!--Numero de documento-->
                                     <sub *ngIf="campoNoValido('numero_documento')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder="Número de documento" formControlName="numero_documento" >
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-hashtag" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Ciudad-->
+                                    <sub *ngIf="campoNoValido('ciudad')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad" appUppercase>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-city" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Direccion-->
+                                    <sub *ngIf="campoNoValido('direccion')" class="text-danger">Campo requerido</sub>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion" appUppercase>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-map" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -231,10 +249,10 @@
                                     <!--Nombres completos-->
                                     <sub *ngIf="campoNoValido('nombres_completos')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos">
+                                        <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -242,7 +260,7 @@
                                     <!--Nombre de usuario-->
                                     <sub *ngIf="campoNoValido('username')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username">
+                                        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>
@@ -295,7 +313,7 @@
                                                 <option *ngFor="let item of Estados">{{item}}</option>
                                             </select>
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>

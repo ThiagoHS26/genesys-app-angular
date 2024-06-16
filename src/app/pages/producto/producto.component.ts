@@ -77,7 +77,14 @@ export class ProductoComponent implements OnInit {
             this.categorias = res;
           },
           error: (err: any) => {
-            console.log(err);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: 'No hay categorías registradas',
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         }
       )
@@ -158,6 +165,7 @@ export class ProductoComponent implements OnInit {
                 localStorage.removeItem('idCat');
                 this.getCategorias();
                 this.getArticulos();
+                this.categoriaForm.reset();
                 this.categoriaFormSubmitted = false;
               }
             });
@@ -223,7 +231,14 @@ export class ProductoComponent implements OnInit {
             this.articulos = res;
           },
           error: (err: any) => {
-            console.log(err);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: 'No hay artículos registrados',
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         }
       )

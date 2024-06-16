@@ -6,64 +6,63 @@
         </div>
         <div class="card">
             <div class="card-body login-card-body">
-            <p class="login-box-msg">Ingresa tus credenciales para iniciar sesión</p>
+                <p class="login-box-msg">Ingresa tus credenciales para iniciar sesión</p>
     
-            <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" autocomplete="off">
-                <small *ngIf="campoNoValido('email')" class="text-danger">Ingresa un correo o usuario</small>
-                <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Correo/usuario" formControlName="username">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                    <span class="fas fa-envelope"></span>
+                <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" autocomplete="off">
+                    <small *ngIf="campoNoValido('email')" class="text-danger">Ingresa un correo o usuario</small>
+                    <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Correo/usuario" formControlName="username">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                        </div>
                     </div>
-                </div>
-                </div>
+                    </div>
 
-                <small *ngIf="campoNoValido('password')" class="text-danger">Ingresa tu contraseña</small>
-                <div class="input-group mb-3">
-                <input type="password" class="form-control" placeholder="Contraseña" #password formControlName="password">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <a style="cursor: pointer;" (click)="showPass()" >
-                            <i class="fas fa-eye-slash" #tooglePassword></i>
-                        </a>
+                    <small *ngIf="campoNoValido('password')" class="text-danger">Ingresa tu contraseña</small>
+                    <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Contraseña" #password formControlName="password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <a style="cursor: pointer;" (click)="showPass()" >
+                                <i class="fas fa-eye-slash" #tooglePassword></i>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-8">
-                    <div class="icheck-primary">
-                    <input type="checkbox" id="remember" formControlName="remember">
-                    <label for="remember">
-                        Guardar sesión
-                    </label>
                     </div>
+                    <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                        <input type="checkbox" id="remember" formControlName="remember">
+                        <label for="remember">
+                            Guardar sesión
+                        </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block" (click)="onSubmit()">Ingresar</button>
+                    </div>
+                    <!-- /.col -->
+                    </div>
+                </form>
+        
+                <div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a routerLink="/social-media" class="btn btn-block btn-primary">
+                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    <a routerLink="/social-media" class="btn btn-block btn-danger">
+                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                    </a>
                 </div>
-                <!-- /.col -->
-                <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block" (click)="onSubmit()">Ingresar</button>
-                </div>
-                <!-- /.col -->
-                </div>
-            </form>
-    
-            <div class="social-auth-links text-center mb-3">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-primary">
-                <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                </a>
-                <a href="#" class="btn btn-block btn-danger">
-                <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                </a>
-            </div>
-            <!-- /.social-auth-links -->
-    
-            <p class="mb-1">
-                <a href="forgot-password.html">Olvidé mi contraseña</a>
-            </p>
-            <p class="mb-0">
-                <a href="register.html" class="text-center">Registrarme</a>
-            </p>
+        
+                <p class="mb-1">
+                    <a routerLink="/forgot-pass">Olvidé mi contraseña</a>
+                </p>
+                <p class="mb-0">
+                    <a routerLink="/register" class="text-center">Registrarme</a>
+                </p>
             </div>
             <!-- /.login-card-body -->
         </div>

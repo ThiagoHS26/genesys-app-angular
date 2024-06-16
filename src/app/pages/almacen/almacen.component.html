@@ -12,7 +12,7 @@
                     <!--Card Body-->
                     <div class="card-body">
                         <!--Tabla-->
-                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered ">
+                        <table class="table table-bordered text-sm">
                             <thead class="bg-dark text-white">
                                 <tr>
                                     <th>No.</th>
@@ -21,6 +21,7 @@
                                     <th>Dirección</th>
                                     <th>Correo</th>
                                     <th>Contacto</th>
+                                    <th>Tipo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -31,7 +32,8 @@
                                     <td>{{item.ciudad}}</td>
                                     <td>{{item.direccion}}</td>
                                     <td>{{item.correo}}</td>
-                                    <td>{{item.movil}}</td>
+                                    <td>{{item.telefono}}</td>
+                                    <td>{{item.tipo}}</td>
                                     <td>
                                         <button (click)="completeAlmacenForm(item.id)" data-toggle="modal" 
                                             data-target="#addStore" class="btn btn-warning btn-xs mr-2">
@@ -62,10 +64,10 @@
                                     <!--Nombre del almacen-->
                                     <sub *ngIf="campoNoValido('nombre')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Nombre del almacén" formControlName="nombre">
+                                        <input type="text" class="form-control" placeholder="Nombre del almacén" formControlName="nombre" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-industry" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -73,10 +75,10 @@
                                     <!--Provincia-->
                                     <sub *ngIf="campoNoValido('provincia')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Provincia" formControlName="provincia">
+                                        <input type="text" class="form-control" placeholder="Provincia" formControlName="provincia" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-globe" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -84,10 +86,10 @@
                                     <!--Ciudad-->
                                     <sub *ngIf="campoNoValido('ciudad')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad">
+                                        <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-city" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -95,10 +97,10 @@
                                     <!--Direccion-->
                                     <sub *ngIf="campoNoValido('direccion')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion">
+                                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion" appUppercase>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-map" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -106,21 +108,10 @@
                                     <!--Correo-->
                                     <sub *ngIf="campoNoValido('correo')" class="text-danger">Campo requerido</sub>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Correo electrónico" formControlName="correo">
+                                        <input type="email" class="form-control" placeholder="Correo electrónico" formControlName="correo">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Telefono-->
-                                    <sub *ngIf="campoNoValido('movil')" class="text-danger">Campo requerido</sub>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Contacto" formControlName="movil">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-envelope" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -131,19 +122,35 @@
                                         <input type="text" class="form-control" placeholder="Contacto" formControlName="telefono">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-check" style="color: rgb(48, 37, 37);"></span>
+                                                <span class="fas fa-phone" style="color: rgb(48, 37, 37);"></span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!--Tipo Documento-->
+                                    <!--Usuario-->
                                     <small *ngIf="campoNoValido('usuario_id')" class="text-danger">Seleccionar usuario</small>
                                     <div class="form-group mb-3">
                                         <div class="input-group-append">
                                             <select class="form-control" (change)="changeUser($event)" formControlName="usuario_id">
-                                                <option value="">Seleccionar usuario</option>
+                                                <option value="" disabled>Seleccionar usuario</option>
                                                 @for (item of usuarios; track item.id) {
                                                     <option value="{{item.id}}">{{item.username}}</option>
+                                                }
+                                            </select>
+                                            <div class="input-group-text">
+                                                <span class="fas fa-id-card" style="color: rgb(48, 37, 37);"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Tipo Almacen-->
+                                    <small *ngIf="campoNoValido('tipo')" class="text-danger">Seleccionar tipo</small>
+                                    <div class="form-group mb-3">
+                                        <div class="input-group-append">
+                                            <select class="form-control" (change)="changeUser($event)" formControlName="tipo">
+                                                <option value="" disabled>Seleccionar tipo</option>
+                                                @for (item of tipos; track item) {
+                                                    <option>{{item}}</option>
                                                 }
                                             </select>
                                             <div class="input-group-text">

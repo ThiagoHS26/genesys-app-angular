@@ -3,10 +3,8 @@ export interface AlmacenInterface {
         provincia: string;
         ciudad: string;
         direccion: string;
-        correo: string;
-        movil: string;
         telefono: string;
-        email: string;
-        estado: string;
+        correo: string;
+        tipo: string;
         usuario_id: string;
 }
