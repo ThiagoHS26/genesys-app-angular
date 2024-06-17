@@ -48,6 +48,8 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
   public btnDetalleVenta: Boolean = false;
   public btnGrabarVenta: Boolean = true;
 
+  public tipoServicio: Boolean = false;
+
   constructor(
     private _router: Router,
     private _detalleVentaSvc: VentaDetalleService, 
@@ -256,9 +258,10 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
     let detalles = {
       id : item.id,
       codigo: item.codigo,
+      tipo: item.tipo_prod,
       nombre_producto: item.nombre_producto,
       producto_id: item.id,
-      venta_id: 'this.idCompra',
+      venta_id: this.idVenta,
       precio_venta: item.precio_venta,
       cantidad: 1,
       descuento: 0
@@ -381,8 +384,13 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
 
   //La funcion calcula el total de la compra
   getTotal(): number {
+    let iva=0;
     const subtotal = this.getSubtotal();
-    const iva = subtotal * 0.15;//Los impuestos cambian segun el pais
+    this.detalleVenta.forEach(e=>{
+      if(e.tipo !== "SERVICIO"){
+        iva = subtotal * 0.15;//Los impuestos cambian segun el pais
+      }
+    })
     return subtotal + iva;
   }
 

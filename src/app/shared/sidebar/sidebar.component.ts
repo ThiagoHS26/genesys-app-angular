@@ -40,7 +40,7 @@ export class SidebarComponent {
     },
     {
       titulo: 'Productos',
-      icono:'nav-icon fas fa-box',
+      icono:'nav-icon fas fa-cubes',
       url:'producto'
     },
     {

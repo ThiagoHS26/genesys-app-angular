@@ -117,9 +117,7 @@ export class VentasComponent implements OnInit, OnDestroy {
     this._ventaSvc.obtenerVentaDetalle(id).pipe(
       mergeMap((venta: any) => {
         this.total = venta.total_venta;
-        console.log(this.total);
         this.ventaDetalle = venta;
-        console.log(this.ventaDetalle);
         const cliente$ = this._clienteSvc.obtenerClienteXId(venta.cliente_id);
 
         // Crear un array de observables para cada producto

@@ -181,6 +181,7 @@
                                         <tr>
                                             <th style="width: 20px;">#</th>
                                             <th style="width: 50px;">Código</th>
+                                            <th style="width: 50px;">Tipo</th>
                                             <th>Artículo</th>
                                             <th style="width: 40px;">P.Venta</th>
                                             <th style="width: 40px;">Cant.</th>
@@ -192,6 +193,7 @@
                                         <tr *ngFor="let item of detalleVenta; let i = index;">
                                             <td>{{i+1}}</td>
                                             <td>{{item.codigo}}</td>
+                                            <td>{{item.tipo}}</td>
                                             <td>{{item.nombre_producto}}</td>
                                             <td>
                                                 <input type="number" style="width: 60px;" (change)="capturaPrecio($event, item.producto_id)" class="text-center" value="{{item.precio_venta}}">
