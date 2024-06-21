@@ -21,6 +21,13 @@ export class ProductoComponent implements OnInit {
   public btnEditArt: Boolean = false;
 
   public tipoArticulo:Array<string> = ['BIEN','SERVICIO'];
+  public iva:Array<number> = [0,5,10,12,15];
+  public ice:Array<string> = [
+    'NO APLICA',
+    'COCINAS, CALEFONES Y OTROS DE USO DOMESTICO A GAS SRI',
+    'FOCOS INCANDESCENTES EXCEPTO AQUELLOS UTILIZADOS COMO INSUMOS AUTOMOTRICES',
+    'SERVICIO DE TELEVISION PAGADA'
+  ];
   public estadoArticulo:Array<string> = ['ACTIVO','INACTIVO'];
 
   public categorias: CategoriaModel[] = [];
@@ -44,7 +51,8 @@ export class ProductoComponent implements OnInit {
       nombre_producto: ['', [Validators.required]],
       tipo_prod: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      unidad: ['', [Validators.required]],
+      iva:[0,[Validators.required]],
+      ice:['',[Validators.required]],
       precio_compra: [0, [Validators.required]],
       precio_base: [0, [Validators.required]],
       precio_venta: [0, [Validators.required]],
@@ -216,7 +224,9 @@ export class ProductoComponent implements OnInit {
     this.articuloForm.reset({
       tipo_prod: '',
       estado: '',
-      categoria_id: ''
+      categoria_id: '',
+      iva: '',
+      ice: ''
     });
     const headTitle = this.modalArtRef.nativeElement;
     headTitle.innerHTML = "Agregar artículo";
@@ -267,7 +277,9 @@ export class ProductoComponent implements OnInit {
                 this.articuloForm.reset({
                   tipo_prod: '',
                   estado: '',
-                  categoria_id: ''
+                  categoria_id: '',
+                  iva: '',
+                  ice: ''
                 });
                 this.articuloFormSubmitted = false;
               }
@@ -292,11 +304,12 @@ export class ProductoComponent implements OnInit {
               nombre_producto: res['nombre_producto'],
               tipo_prod: res['tipo_prod'],
               descripcion: res['descripcion'],
-              unidad: res['unidad'],
+              iva: res['iva'],
+              ice: res['ice'],
               precio_compra: res['precio_compra'],
               precio_base: res['precio_base'],
               precio_venta: res['precio_venta'],
-              stock_incial: res['stock_incial'],//corregir escritura en el back 
+              stock_incial: res['stock_incial'],
               stock_actual: res['stock_actual'],
               estado: res['estado'],
               categoria_id: res['categoria_id']
@@ -331,7 +344,9 @@ export class ProductoComponent implements OnInit {
                 this.articuloForm.reset({
                   tipo_prod: '',
                   estado: '',
-                  categoria_id: ''
+                  categoria_id: '',
+                  iva: '',
+                  ice: ''
                 });
                 this.articuloFormSubmitted = false;
               }

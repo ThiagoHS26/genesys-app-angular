@@ -22,7 +22,7 @@
                         <!--Nombres completos-->
                         <sub *ngIf="campoNoValido('nombres_completos')" class="text-danger">Campo requerido</sub>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos">
+                            <input type="text" class="form-control" placeholder="Nombres completos" formControlName="nombres_completos" appUppercase>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user" style="color: rgb(48, 37, 37);"></span>

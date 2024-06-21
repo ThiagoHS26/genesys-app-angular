@@ -42,7 +42,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if(this.registerForm.invalid){
       return;
     }
-    console.log(this.registerForm.value);
     this._authSvc.register(this.registerForm.value)
       .subscribe(
         {

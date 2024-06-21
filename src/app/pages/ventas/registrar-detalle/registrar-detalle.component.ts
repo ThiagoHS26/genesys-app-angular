@@ -48,7 +48,10 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
   public btnDetalleVenta: Boolean = false;
   public btnGrabarVenta: Boolean = true;
 
-  public tipoServicio: Boolean = false;
+  public total:number=0;
+  public subTotal:number=0;
+  public subTotalSvc:number=0;
+  public iva:number=0;
 
   constructor(
     private _router: Router,
@@ -259,6 +262,7 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
       id : item.id,
       codigo: item.codigo,
       tipo: item.tipo_prod,
+      iva: item.iva,
       nombre_producto: item.nombre_producto,
       producto_id: item.id,
       venta_id: this.idVenta,
@@ -365,7 +369,7 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
     }
     this.detalleVenta.forEach(element => {
       if(element.producto_id === id){
-        element.precio_compra = parseFloat(evento.target.value);
+        element.precio_venta = parseFloat(evento.target.value);
       }
     });
   }
@@ -379,18 +383,45 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
 
   getSubtotal(): number {
     return this.detalleVenta
-      .reduce((acc, producto) => acc + ((producto.cantidad * producto.precio_venta) - ((producto.cantidad * producto.precio_venta)*(producto.descuento / 100))), 0);
+      .reduce((acc, producto) => 
+        acc+((producto.cantidad * producto.precio_venta)
+      -((producto.cantidad * producto.precio_venta)*(producto.descuento / 100))), 0);
   }
 
-  //La funcion calcula el total de la compra
-  getTotal(): number {
+   // Métodos para calcular subtotal, IVA y total
+
+  getIva(): number {
     let iva=0;
-    const subtotal = this.getSubtotal();
     this.detalleVenta.forEach(e=>{
-      if(e.tipo !== "SERVICIO"){
-        iva = subtotal * 0.15;//Los impuestos cambian segun el pais
+      iva = iva + ((e.cantidad * e.precio_venta) * (e.iva / 100));
+    });
+    return iva;
+  }
+
+  //Calcular total servicios
+  getTotalServicios(): number {
+    let total=0;
+    this.detalleVenta.forEach(e=>{
+      if(e.iva === 0){
+        total = total + (e.cantidad * e.precio_venta) - ((e.cantidad * e.precio_venta)*(e.descuento/100))
       }
-    })
+    });
+    return total;
+  }
+  //Calcular total bienes
+  getTotalBienes(): number {
+    let total=0;
+    this.detalleVenta.forEach(e=>{
+      if(e.iva !== 0){
+        total = total + (e.cantidad * e.precio_venta) - ((e.cantidad * e.precio_venta)*(e.descuento/100))
+      }
+    });
+    return total;
+  }
+
+  getTotal(): number {
+    const subtotal = this.getSubtotal();
+    const iva = this.getIva();
     return subtotal + iva;
   }
 
@@ -436,6 +467,7 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
         }
       )
   }
+
 
   registrarCliente(cedula:string){
     console.log(cedula);

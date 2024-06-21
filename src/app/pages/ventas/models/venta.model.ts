@@ -15,6 +15,7 @@ export class VentaModel {
         public observaciones:string,
         public user_id:string,
         public sucursal_id:string,
+        public detVentas:[],
         public cliente_id:string,
         public createdAt:string,
         public updatedAt:string

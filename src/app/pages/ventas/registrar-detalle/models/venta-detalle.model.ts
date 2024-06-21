@@ -3,6 +3,7 @@ export class VentaDetalleModel {
         public id:string,
         public codigo_producto:string,
         public nombre_producto:string,
+        public iva: number,
         public cantidad:string,
         public precio_venta:string,
         public descuento:string,

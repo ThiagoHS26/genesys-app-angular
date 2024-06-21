@@ -31,6 +31,7 @@ export class VentasComponent implements OnInit, OnDestroy {
     detVentas: [{
       codigo_producto:'',
       nombre_producto:'',
+      iva:0,
       cantidad:0,
       precio_venta:0,
       descuento:0,
@@ -39,8 +40,11 @@ export class VentasComponent implements OnInit, OnDestroy {
   };
   public productos:Array<any> = [];
   public total:number = 0;
+  public totalSvc:number=0;
+  public totalBns:number=0;
+  public totalIva:number=0;
+  public totalDesc:number=0;
   public fechaEmision;
-  public subtotalServicios: number = 0;
 
   constructor(
     private _ventaSvc: VentaService,
@@ -118,6 +122,12 @@ export class VentasComponent implements OnInit, OnDestroy {
       mergeMap((venta: any) => {
         this.total = venta.total_venta;
         this.ventaDetalle = venta;
+
+        this.calcSubtotalSvcs(this.ventaDetalle.detVentas);
+        this.calcSubtotalBns(this.ventaDetalle.detVentas);
+        this.calcIva(this.ventaDetalle.detVentas);
+        this.calcDesc(this.ventaDetalle.detVentas);
+
         const cliente$ = this._clienteSvc.obtenerClienteXId(venta.cliente_id);
 
         // Crear un array de observables para cada producto
@@ -138,11 +148,6 @@ export class VentasComponent implements OnInit, OnDestroy {
       next: ({ cliente, productos }) => {
         this.cliente = cliente;
         this.productos = productos;
-        this.productos.forEach(element => {
-          if(element.tipo_prod === "SERVICIO"){
-            this.subtotalServicios += element.precio_venta;
-          }
-        });
       },
       error: (err: any) => {
         console.log(err);
@@ -150,6 +155,35 @@ export class VentasComponent implements OnInit, OnDestroy {
     });
   }
 
+  calcSubtotalSvcs(items:any){
+    items.forEach((element:any) => {
+      if(element.iva === 0){
+        this.totalSvc += parseFloat(element.subtotal);
+      }
+    });
+  }
+
+  calcSubtotalBns(items:any) {
+    items.forEach((element:any) => {
+      if(element.iva!== 0){
+        this.totalBns += parseFloat(element.subtotal);
+      }
+    });
+  }
+
+  calcIva(items:any){
+    items.forEach((element:any)=>{
+      if(element.iva!==0){
+        this.totalIva += parseFloat(element.iva);
+      }
+    })
+  }
+
+  calcDesc(items:any) {
+    items.forEach((element:any)=>{
+      this.totalDesc += parseFloat(element.descuento);
+    })
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();

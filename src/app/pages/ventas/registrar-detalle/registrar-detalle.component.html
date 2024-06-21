@@ -227,23 +227,23 @@
                             <div class="col-6">
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal 15%</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getSubtotal() | number:'1.2-2'}}" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getTotalBienes() | number:'1.2-2'}}" readonly>
                                 </div>
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal 0%</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getTotalServicios() | number:'1.2-2'}}" readonly>
                                 </div>
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal No Objeto IVA</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{0 | number:'1.2-2'}}" readonly>
                                 </div>
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal Exento IVA</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{0 | number:'1.2-2'}}" readonly>
                                 </div>
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Subtotal Sin Impuestos</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{0 | number:'1.2-2'}}" readonly>
                                 </div>
                             </div>
 
@@ -251,15 +251,23 @@
                                 
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">ICE</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{0 | number:'1.2-2'}}" readonly>
                                 </div>
-                                <div class="input-group">
-                                    <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">IVA 15%</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getTotal() - getSubtotal() | number:'1.2-2'}}" readonly>
-                                </div>
+                                @if(getIva() !== 0){
+                                    <div class="input-group">
+                                        <label style="font-size: 14px;text-align: end; border: none; background: transparent;"  class="form-control">IVA 15%</label>
+                                        <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{getIva() | number:'1.2-2'}}" readonly>
+                                    </div>
+                                }@else {
+                                    <div class="input-group">
+                                        <label style="font-size: 14px;text-align: end; border: none; background: transparent;"  class="form-control">IVA 15%</label>
+                                        <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{0 | number:'1.2-2'}}" readonly>
+                                    </div>
+                                }
+                               
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Propina</label>
-                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" readonly>
+                                    <input style="font-size: 14px;" type="number" class="form-control" placeholder="0" value="{{0 | number:'1.2-2'}}" readonly>
                                 </div>
                                 <div class="input-group">
                                     <label style="font-size: 14px;text-align: end; border: none; background: transparent;" class="form-control">Total</label>

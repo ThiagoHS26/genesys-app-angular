@@ -85,7 +85,7 @@ export class DistribuidorComponent implements OnInit, OnDestroy {
         {
           next: (res: ProveedorModel) => {
             Swal.fire({
-              title: 'Almacén creado',
+              title: 'Proveedor creado',
               text: 'El proveedor ha sido creado',
               icon:'success',
               showCancelButton: false,
