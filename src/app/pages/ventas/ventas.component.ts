@@ -6,6 +6,8 @@ import { Subject, forkJoin, map, mergeMap, takeUntil } from 'rxjs';
 import { ClienteService } from '../cliente/services/cliente.service';
 import { formatDate } from '@angular/common';
 import { ArticuloService } from '../producto/services/articulo.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-ventas',
@@ -174,15 +176,30 @@ export class VentasComponent implements OnInit, OnDestroy {
   calcIva(items:any){
     items.forEach((element:any)=>{
       if(element.iva!==0){
-        this.totalIva += parseFloat(element.iva);
+        this.totalIva += element.subtotal * (element.iva/100);
       }
     })
   }
 
   calcDesc(items:any) {
     items.forEach((element:any)=>{
-      this.totalDesc += parseFloat(element.descuento);
+      this.totalDesc += (element.descuento/100) * (element.cantidad * element.precio_venta);
     })
+  }
+
+  exportToPdf():void{
+    const dataElement = document.getElementById('factura');
+    if (dataElement) {
+      html2canvas(dataElement).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('download.pdf');
+      });
+    }
   }
 
   ngOnDestroy(): void {

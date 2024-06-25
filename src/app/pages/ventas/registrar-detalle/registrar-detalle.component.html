@@ -7,7 +7,7 @@
                     <div class="card-header">
                         <form (ngSubmit)="registrarVenta()" [formGroup]="cabeceraVentaForm" autocomplete="off">
                             <!--Encabezado de la factura-->
-                            <div class="row">
+                            <div class="row text-sm">
                                 <!--Col-1-->
                                 <div class="col-sm-3">
                                     <div class="form-group text-sm">
@@ -47,7 +47,7 @@
                                     <div class="form-group text-sm">
                                         <label>Factura No.</label><br>
                                         <sub *ngIf="campoNoValido('fecha_emision')" class="text-danger">Campo obligatorio</sub>
-                                        <input type="text" class="form-control" style="font-size: 14px;" placeholder="{{invoiceNumber}}" value="{{invoiceNumber}}" formControlName="num_factura">
+                                        <input type="text" class="form-control" style="font-size: 14px;" readonly placeholder="{{invoiceNumber}}" value="{{invoiceNumber}}" formControlName="num_factura">
                                     </div>
                                 </div>
                                 <sub *ngIf="campoNoValido('num_factura')" class="text-danger">Campo obligatorio</sub>
@@ -56,7 +56,7 @@
                                     <div class="form-group text-sm">
                                         <label>Fecha de emisión</label><br>
                                         <sub *ngIf="campoNoValido('fecha_emision')" class="text-danger">Campo obligatorio</sub>
-                                        <input type="text" class="form-control" style="font-size: 14px;" formControlName="fecha_emision">
+                                        <input type="text" class="form-control" style="font-size: 14px;" readonly formControlName="fecha_emision">
                                     </div>
                                 </div>
                                 
@@ -143,7 +143,7 @@
                                 </div>
                                 
                                  <!--Col-4-->
-                                 <div class="col-sm-3">
+                                <div class="col-sm-3">
                                     <div class="form-group text-sm">
                                         <label>Observaciones</label>
                                         <textarea class="form-control" style="font-size: 14px;" formControlName="observaciones" placeholder="Escribe un comentario"></textarea>
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mb-3">
                                 <button type="submit" class="btn btn-primary btn-sm mr-1" *ngIf="btnGrabarVenta">Grabar</button>
                                 <button type="button" class="btn btn-success btn-sm" (click)="registrarDetVenta()" *ngIf="btnDetalleVenta">Añadir detalles</button>
                             </div>

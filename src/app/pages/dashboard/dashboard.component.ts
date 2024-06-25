@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit{
           },
           error:(err:any)=>{
             console.log(err);
+            this.totalVentas = 0;
           }
         }
       )
@@ -46,6 +47,7 @@ export class DashboardComponent implements OnInit{
           },
           error:(err:any) => {
             console.log(err);
+            this.totalCompras = 0;
           }
         }
       )
@@ -61,6 +63,7 @@ export class DashboardComponent implements OnInit{
           },
           error:(err:any)=>{
             console.log(err);
+            this.totalClientes = 0;
           }
         }
       )
@@ -76,6 +79,7 @@ export class DashboardComponent implements OnInit{
           },
           error:(err:any)=>{
             console.log(err);
+            this.totalProductos = 0;
           }
         }
       )

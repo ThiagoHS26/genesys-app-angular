@@ -28,8 +28,8 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
   public articulos: ArticuloModel[] = [];//Lista de articulos
   public totalArticulos: number = 0;
 
-  public cliente = {
-    id : 'bd7716aa-6f9e-400c-badf-8ac298c35a5f',
+  public cliente = {//CONSUMIDOR FINAL
+    id : 'e74c8bfa-0d7a-4026-884e-733034a9cb2a',
     dni:'9999999999999',
     razon_social:'CONSUMIDOR FINAL',
     direccion:'...',

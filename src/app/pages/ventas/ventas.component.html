@@ -116,10 +116,10 @@
                                                 <td>{{item.nombre_producto}}</td>
                                                 <td>{{item.iva}}%</td>
                                                 <td>{{item.cantidad}}</td>
-                                                <td>$ {{item.precio_venta}}</td>
-                                                <td>{{(100 * item.descuento) / (item.precio_venta * item.cantidad)}} %</td>
-                                                <td>$ {{item.descuento}}</td>
-                                                <td>$ {{item.subtotal}}</td>
+                                                <td>$ {{item.precio_venta | number:'1.2-2'}}</td>
+                                                <td>{{item.descuento}} %</td>
+                                                <td>$ {{(item.descuento/100) * (item.cantidad * item.precio_venta)| number:'1.2-2'}}</td>
+                                                <td>$ {{item.subtotal | number:'1.2-2'}}</td>
                                             </tr>
                                             
                                         </tbody>
@@ -224,7 +224,7 @@
                                         
                                     </div>
 
-                                    <button type="button" class="btn btn-primary btn-sm">Imprimir</button>
+                                    <button type="button" (click)="exportToPdf()" class="btn btn-primary btn-sm">Imprimir</button>
                                 
                                 </div>
 
