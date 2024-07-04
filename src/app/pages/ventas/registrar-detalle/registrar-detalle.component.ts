@@ -102,6 +102,7 @@ export class RegistrarDetalleComponent implements OnInit, OnDestroy {
       .subscribe(
         {
           next: (res: any)=>{
+            console.log(res);
           },
           error: (err: any)=> {
             console.log(err);
