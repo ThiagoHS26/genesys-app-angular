@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    urlServer: 'http://localhost:3000/api/'
+    urlServer: 'https://genesys-server-i02m.onrender.com/'
   };
   
   /*
